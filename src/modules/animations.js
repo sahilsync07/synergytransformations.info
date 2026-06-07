@@ -115,8 +115,11 @@ export function initAnimations(camera) {
     const x = word.dataset.floatX || 0;
     const y = word.dataset.floatY || 0;
     
+    // Set initial position immediately
+    gsap.set(word, { x: `${x}vw`, y: `${y}vh` });
+
     gsap.fromTo(word, 
-      { opacity: 0, x: `${x}vw`, y: `${y}vh`, scale: 0.5 },
+      { opacity: 0, scale: 0.2 },
       {
         scrollTrigger: {
           trigger: '#sec-pain',
@@ -125,8 +128,6 @@ export function initAnimations(camera) {
           scrub: 1
         },
         opacity: 1,
-        x: 0,
-        y: 0,
         scale: 1,
         ease: 'power2.out',
         color: 'hsla(0,70%,60%,0.6)'
