@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const particles = initParticles(scene);
 
   // 4. Initialize DOM scroll animations & Camera Z-axis mapping
-  initAnimations(camera);
+  initAnimations(camera, particles);
 
   // 5. Initialize navigation
   initNavigation(lenis);

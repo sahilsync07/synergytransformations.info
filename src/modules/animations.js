@@ -8,7 +8,7 @@ import SplitType from 'split-type';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function initAnimations(camera) {
+export function initAnimations(camera, particles) {
   // 1. CAMERA FLY-THROUGH (The core 3D mechanic)
   // Entire page scroll drives the camera deep into the Z-axis
   const maxDepth = -7000;
@@ -34,6 +34,51 @@ export function initAnimations(camera) {
       );
     }
   });
+
+  // ==========================================
+  // EXTRAORDINARY 4-ACT 3D SEQUENCE TRIGGERS
+  // ==========================================
+
+  // Act 2 Trigger: Chaos -> Alignment
+  ScrollTrigger.create({
+    trigger: '#sec-bridge', // The Alignment section
+    start: 'top bottom',
+    end: 'center center',
+    scrub: 1,
+    onUpdate: (self) => {
+      // Assemble the scattered shards into the massive geometric shape
+      particles.chaosUniforms.uProgress.value = self.progress;
+    }
+  });
+
+  // Act 3 Trigger: Warp Tunnel Acceleration
+  ScrollTrigger.create({
+    trigger: '#sec-method',
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: 0.5,
+    onUpdate: (self) => {
+      // Particles stretch into streaks of light based on scroll speed
+      particles.warpUniforms.uSpeed.value = self.getVelocity() * 0.005;
+    }
+  });
+
+  // Act 4 Trigger: Convergence Core
+  ScrollTrigger.create({
+    trigger: '#sec-cta',
+    start: 'top bottom',
+    end: 'bottom bottom',
+    scrub: 1,
+    onUpdate: (self) => {
+      // The massive star core at the end fades in intensely
+      particles.coreMat.opacity = self.progress;
+      particles.coreGlowMat.opacity = self.progress * 0.5;
+    }
+  });
+
+  // ==========================================
+  // DOM ANIMATIONS
+  // ==========================================
 
   // 2. KINETIC TYPOGRAPHY (Hero)
   const heroText = new SplitType('.split-text', { types: 'chars' });
