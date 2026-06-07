@@ -1,37 +1,45 @@
 /* ========================================================
-   Three.js Scene Manager
-   Sets up the WebGL scene, camera, renderer
+   Three.js Scene Manager — True 3D Z-Axis Camera
+   Sets up scene, camera, renderer, and lighting
    ======================================================== */
 import * as THREE from 'three';
 
 export function initThreeScene() {
-  const canvas = document.getElementById('three-canvas');
+  const canvas = document.getElementById('webgl');
 
   // Scene
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0a0a10, 0.0008);
+  scene.fog = new THREE.FogExp2(0x050508, 0.0015);
 
-  // Camera
+  // Camera - we will move this along Z axis!
   const camera = new THREE.PerspectiveCamera(
     60,
     window.innerWidth / window.innerHeight,
     0.1,
-    2000
+    10000
   );
-  camera.position.set(0, 0, 300);
+  camera.position.set(0, 0, 0); // Start at Z=0
 
   // Renderer
   const renderer = new THREE.WebGLRenderer({
     canvas,
-    antialias: false, // Performance: skip AA for particles
-    alpha: true,
+    antialias: true,
+    alpha: false,
     powerPreference: 'high-performance',
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 0);
+  renderer.setClearColor(0x050508, 1);
 
-  // Simple elapsed time tracker (avoids deprecated THREE.Clock)
+  // Lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xd4a44a, 2);
+  directionalLight.position.set(100, 200, 100);
+  scene.add(directionalLight);
+
+  // Simple performance.now timer
   const startTime = performance.now();
   const clock = {
     getElapsedTime() {

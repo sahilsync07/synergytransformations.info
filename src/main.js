@@ -18,17 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize smooth scroll (Lenis + GSAP sync)
   const lenis = initScrollEngine();
 
-  // 2. Initialize Three.js scene + particle system
+  // 2. Initialize Three.js scene (Camera starts at Z=0)
   const { scene, camera, renderer, clock } = initThreeScene();
+  
+  // 3. Populate 3D space with objects along the negative Z-axis
   const particles = initParticles(scene, prefersReducedMotion);
 
-  // 3. Initialize DOM scroll animations
-  initAnimations(prefersReducedMotion);
+  // 4. Initialize DOM scroll animations & Camera Z-axis mapping
+  initAnimations(prefersReducedMotion, camera);
 
-  // 4. Initialize navigation
+  // 5. Initialize navigation
   initNavigation(lenis);
 
-  // 5. Main render loop — tied to GSAP ticker for perf
+  // 6. Main render loop — tied to GSAP ticker for perf
   if (!prefersReducedMotion) {
     gsap.ticker.add(() => {
       const elapsed = clock.getElapsedTime();
@@ -36,18 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
       renderer.render(scene, camera);
     });
   } else {
-    // Minimal render for reduced motion — just static particles
+    // Minimal render for reduced motion
     function renderOnce() {
       particles.update(0);
       renderer.render(scene, camera);
     }
     renderOnce();
-
-    // Re-render on resize
     window.addEventListener('resize', renderOnce);
   }
 
-  // 6. Handle resize
+  // 7. Handle resize
   window.addEventListener('resize', () => {
     const w = window.innerWidth;
     const h = window.innerHeight;
@@ -60,5 +60,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // Remove loading state
   document.body.classList.add('is-loaded');
 
-  console.log('✦ Synergy Transformations — Initialized');
+  console.log('✦ Synergy Transformations — True 3D Initialized');
 });
