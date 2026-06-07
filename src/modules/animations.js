@@ -7,15 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function initAnimations(prefersReducedMotion, camera) {
-  if (prefersReducedMotion) {
-    document.querySelectorAll('.layer, .char, .pain-word, .mega-quote__line, .pillar, .tl-step, .testi, .cta-title, .cta-btn, .video-frame').forEach(el => {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    });
-    return;
-  }
-
+export function initAnimations(camera) {
   // 1. CAMERA FLY-THROUGH (The core 3D mechanic)
   // Entire page scroll drives the camera deep into the Z-axis
   const maxDepth = -7000;
@@ -43,15 +35,21 @@ export function initAnimations(prefersReducedMotion, camera) {
   });
 
   // 2. KINETIC TYPOGRAPHY (Hero)
+  const heroText = new SplitType('.split-text', { types: 'chars' });
   const heroTl = gsap.timeline({ delay: 0.2 });
-  heroTl.to('.char', {
-    y: '0%',
-    rotateX: 0,
-    opacity: 1,
-    duration: 1.2,
-    stagger: 0.04,
-    ease: 'power4.out'
-  })
+  
+  heroTl.fromTo(heroText.chars, 
+    { y: '110%', rotateX: 40, opacity: 0 },
+    {
+      y: '0%',
+      rotateX: 0,
+      opacity: 1,
+      duration: 1.2,
+      stagger: 0.04,
+      ease: 'power4.out',
+      transformOrigin: 'bottom center'
+    }
+  )
   .to('#scroll-cue', {
     opacity: 1,
     duration: 1

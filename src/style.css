@@ -173,7 +173,7 @@ img, svg { display: block; max-width: 100%; }
 /* ---- Section Titles ---- */
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
@@ -185,7 +185,7 @@ img, svg { display: block; max-width: 100%; }
 /* ---- Hero Title — Kinetic Character Animation ---- */
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 10vw, 9rem);
+  font-size: clamp(2.5rem, 7vw, 6rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.04em;
@@ -193,19 +193,22 @@ img, svg { display: block; max-width: 100%; }
   margin-bottom: 1rem;
 }
 
-.char-wrap {
+.split-text {
   display: block;
   overflow: hidden;
+  padding-bottom: 0.1em; /* Prevent descender clipping */
 }
 
 .char {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(110%) rotateX(40deg);
-  transform-origin: bottom center;
 }
 
-.accent-line { margin-top: 0.1em; }
+.accent {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 /* ---- Scroll Cue ---- */
 .scroll-cue {

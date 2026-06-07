@@ -12,9 +12,6 @@ import { initNavigation } from './modules/navigation.js';
 
 // Wait for DOM
 document.addEventListener('DOMContentLoaded', () => {
-  // Check for reduced motion preference
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   // 1. Initialize smooth scroll (Lenis + GSAP sync)
   const lenis = initScrollEngine();
 
@@ -22,30 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const { scene, camera, renderer, clock } = initThreeScene();
   
   // 3. Populate 3D space with objects along the negative Z-axis
-  const particles = initParticles(scene, prefersReducedMotion);
+  const particles = initParticles(scene);
 
   // 4. Initialize DOM scroll animations & Camera Z-axis mapping
-  initAnimations(prefersReducedMotion, camera);
+  initAnimations(camera);
 
   // 5. Initialize navigation
   initNavigation(lenis);
 
   // 6. Main render loop — tied to GSAP ticker for perf
-  if (!prefersReducedMotion) {
-    gsap.ticker.add(() => {
-      const elapsed = clock.getElapsedTime();
-      particles.update(elapsed);
-      renderer.render(scene, camera);
-    });
-  } else {
-    // Minimal render for reduced motion
-    function renderOnce() {
-      particles.update(0);
-      renderer.render(scene, camera);
-    }
-    renderOnce();
-    window.addEventListener('resize', renderOnce);
-  }
+  gsap.ticker.add(() => {
+    const elapsed = clock.getElapsedTime();
+    particles.update(elapsed);
+    renderer.render(scene, camera);
+  });
 
   // 7. Handle resize
   window.addEventListener('resize', () => {
