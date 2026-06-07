@@ -3,93 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Synergy Transformations — Transformations That Matter</title>
+  <title>Synergy Transformations — Structure. Discipline. Follow-through.</title>
   <meta name="description" content="The Synergy Program: Transformation is not motivation. It is structure, discipline, and follow-through. Begin your transformation journey today." />
-  <meta property="og:title" content="Synergy Transformations — Transformations That Matter" />
-  <meta property="og:description" content="The Synergy Program: Structure. Discipline. Follow-through." />
-  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◆</text></svg>">
 </head>
 <body>
-  <!-- Three.js takes FULL SCREEN — the entire page IS the 3D scene -->
-  <canvas id="webgl"></canvas>
+  
+  <!-- Navigation -->
+  <nav id="nav" class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" id="nav-logo">
+        <span class="nav__logo-diamond">◆</span>
+        <span>SYNERGY</span>
+      </a>
+      <a href="#sec-cta" class="nav__cta" id="nav-cta">Begin Now →</a>
+    </div>
+    <div class="nav__progress-track"><div class="nav__progress-bar" id="progress-bar"></div></div>
+  </nav>
 
-  <!-- Scroll container — drives 3D camera position -->
-  <div id="scroll-container">
+  <!-- Smooth Scroll Wrapper -->
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
 
-    <!-- Nav overlay -->
-    <nav id="nav" class="nav">
-      <div class="nav__inner">
-        <a href="#" class="nav__logo" id="nav-logo">
-          <span class="nav__logo-diamond">◆</span>
-          <span>SYNERGY</span>
-        </a>
-        <a href="#sec-cta" class="nav__cta" id="nav-cta">Begin Now →</a>
-      </div>
-      <div class="nav__progress-track"><div class="nav__progress-bar" id="progress-bar"></div></div>
-    </nav>
-
-    <!-- Each section is a "depth layer" — camera flies through them on Z axis -->
-
-    <!-- LAYER 0: Void — particles coalesce -->
-    <section class="layer" id="sec-void" data-depth="0">
-      <div class="layer__content layer__content--centered">
-        <p class="kicker">THE SYNERGY PROGRAM</p>
-        <h1 class="hero-title" id="hero-title">
-          <div class="split-text">Transformations</div>
-          <div class="split-text accent">That Matter</div>
-        </h1>
-        <div class="scroll-cue" id="scroll-cue">
-          <span>Scroll to enter</span>
-          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 3v14M4 11l6 6 6-6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <!-- HERO SECTION -->
+      <section class="section hero" id="sec-hero">
+        <div class="container hero__container">
+          <p class="kicker" data-reveal>THE SYNERGY PROGRAM</p>
+          <h1 class="hero__title">
+            <div class="split-text">Transformations</div>
+            <div class="split-text accent">That Matter</div>
+          </h1>
+          <div class="scroll-cue" id="scroll-cue">
+            <span>Scroll to Enter</span>
+            <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 3v14M4 11l6 6 6-6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- LAYER 1: Pain — camera enters the chaos -->
-    <section class="layer" id="sec-pain" data-depth="1">
-      <div class="layer__content">
-        <p class="kicker">THE REALITY</p>
-        <h2 class="section-title" data-animate="title">Stuck in the <span class="accent">Loop</span></h2>
-        <div class="pain-words" id="pain-words">
-          <span class="pain-word" data-float-x="-30" data-float-y="-20">REPEATING</span>
-          <span class="pain-word" data-float-x="40" data-float-y="10">UNMOTIVATED</span>
-          <span class="pain-word" data-float-x="-20" data-float-y="30">STUCK</span>
-          <span class="pain-word" data-float-x="25" data-float-y="-35">NO DISCIPLINE</span>
-          <span class="pain-word" data-float-x="-40" data-float-y="15">CHAOS</span>
-          <span class="pain-word" data-float-x="35" data-float-y="40">LOST</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- LAYER 2: Bridge — the core philosophy -->
-    <section class="layer" id="sec-bridge" data-depth="2">
-      <div class="layer__content layer__content--centered">
-        <blockquote class="mega-quote" id="mega-quote">
-          <span class="mega-quote__line" data-reveal="0">Transformation</span>
-          <span class="mega-quote__line" data-reveal="1">is not motivation.</span>
-          <span class="mega-quote__line mega-quote__line--gold" data-reveal="2">It is structure,</span>
-          <span class="mega-quote__line mega-quote__line--gold" data-reveal="3">discipline, and</span>
-          <span class="mega-quote__line mega-quote__line--gold" data-reveal="4">follow-through.</span>
-        </blockquote>
-      </div>
-    </section>
-
-    <!-- LAYER 3: Video — Ryan's landscape video moment -->
-    <section class="layer layer--video" id="sec-video" data-depth="3">
-      <div class="layer__content layer__content--centered">
-        <p class="kicker">WATCH THE VISION</p>
-        <div class="video-frame" id="video-frame">
-          <div class="video-frame__glow"></div>
-          <div class="video-frame__border">
+      <!-- VIDEO REVEAL SECTION -->
+      <section class="section video-reveal" id="sec-video">
+        <div class="video-reveal__sticky">
+          <!-- Text that parts away -->
+          <div class="video-reveal__text-overlay">
+            <h2 class="video-reveal__title">
+              <span class="vr-split">The</span>
+              <span class="vr-split accent">Reality</span>
+            </h2>
+          </div>
+          
+          <!-- The expanding video window -->
+          <div class="video-reveal__window" id="video-window">
             <iframe
               id="ryan-video"
               src="https://drive.google.com/file/d/1Udj5PXKnqeNSCr5-mAK2io0lFfbC80cT/preview"
-              width="100%"
-              height="100%"
               frameborder="0"
               allow="autoplay; encrypted-media"
               allowfullscreen
@@ -98,139 +67,118 @@
             ></iframe>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- LAYER 4: Method — the 4 pillars -->
-    <section class="layer" id="sec-method" data-depth="4">
-      <div class="layer__content">
-        <p class="kicker">THE METHOD</p>
-        <h2 class="section-title" data-animate="title">The Synergy <span class="accent">Program</span></h2>
-        <div class="pillars" id="pillars">
-          <div class="pillar" data-pillar="0">
-            <span class="pillar__num">01</span>
-            <h3 class="pillar__title">Structured Framework</h3>
-            <p class="pillar__desc">A step-by-step system replacing chaos with clarity. No guesswork.</p>
-          </div>
-          <div class="pillar" data-pillar="1">
-            <span class="pillar__num">02</span>
-            <h3 class="pillar__title">Discipline Architecture</h3>
-            <p class="pillar__desc">Engineering habits that stick. Discipline becomes automatic.</p>
-          </div>
-          <div class="pillar" data-pillar="2">
-            <span class="pillar__num">03</span>
-            <h3 class="pillar__title">Real-Time Solutions</h3>
-            <p class="pillar__desc">Every roadblock addressed instantly. You're never alone.</p>
-          </div>
-          <div class="pillar" data-pillar="3">
-            <span class="pillar__num">04</span>
-            <h3 class="pillar__title">Permanent Results</h3>
-            <p class="pillar__desc">Not a 30-day challenge. A complete rewiring that compounds forever.</p>
-          </div>
+      <!-- PHILOSOPHY SECTION (Stacking Card) -->
+      <section class="section philosophy stack-card" id="sec-philosophy">
+        <div class="container philosophy__container">
+          <blockquote class="mega-quote">
+            <span class="mq-line">Transformation</span>
+            <span class="mq-line">is not motivation.</span>
+            <span class="mq-line accent">It is structure,</span>
+            <span class="mq-line accent">discipline, and</span>
+            <span class="mq-line accent">follow-through.</span>
+          </blockquote>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- LAYER 5: Journey Timeline -->
-    <section class="layer" id="sec-journey" data-depth="5">
-      <div class="layer__content">
-        <p class="kicker">YOUR PATH</p>
-        <h2 class="section-title" data-animate="title">The <span class="accent">Journey</span></h2>
-        <div class="timeline" id="timeline">
-          <div class="tl-step" data-step="0">
-            <div class="tl-step__marker"><div class="tl-step__dot"></div></div>
-            <div class="tl-step__body">
-              <span class="tl-step__label">STEP 01</span>
+      <!-- HORIZONTAL SCROLL SECTION (Pillars + Journey) -->
+      <section class="section horizontal" id="sec-horizontal">
+        <div class="horizontal__sticky">
+          <div class="horizontal__track" id="h-track">
+            
+            <!-- Intro Panel -->
+            <div class="h-panel h-panel--intro">
+              <p class="kicker">THE METHOD</p>
+              <h2 class="h-title">The Synergy <br/><span class="accent">Architecture</span></h2>
+              <p class="h-desc">A step-by-step system replacing chaos with absolute clarity.</p>
+            </div>
+
+            <!-- Pillar Cards -->
+            <div class="h-panel h-panel--card">
+              <div class="glass-card">
+                <span class="card-num">01</span>
+                <h3>Structured Framework</h3>
+                <p>A master plan replacing guesswork with precision execution.</p>
+              </div>
+            </div>
+            <div class="h-panel h-panel--card">
+              <div class="glass-card">
+                <span class="card-num">02</span>
+                <h3>Discipline Engine</h3>
+                <p>Engineering habits that stick. Discipline becomes automatic.</p>
+              </div>
+            </div>
+            <div class="h-panel h-panel--card">
+              <div class="glass-card">
+                <span class="card-num">03</span>
+                <h3>Real-Time Solutions</h3>
+                <p>Every roadblock addressed instantly. You're never alone.</p>
+              </div>
+            </div>
+            
+            <!-- Journey Intro -->
+            <div class="h-panel h-panel--intro" style="margin-left: 10vw;">
+              <p class="kicker">YOUR PATH</p>
+              <h2 class="h-title">The <br/><span class="accent">Journey</span></h2>
+            </div>
+            
+            <!-- Journey Steps -->
+            <div class="h-panel h-panel--step">
+              <div class="step-marker"></div>
               <h3>Orientation Call</h3>
-              <p>A deep-dive conversation to understand where you are and where you want to go.</p>
+              <p>Deep-dive conversation.</p>
             </div>
-          </div>
-          <div class="tl-step" data-step="1">
-            <div class="tl-step__marker"><div class="tl-step__dot"></div></div>
-            <div class="tl-step__body">
-              <span class="tl-step__label">STEP 02</span>
+            <div class="h-panel h-panel--step">
+              <div class="step-marker"></div>
               <h3>Blueprint Design</h3>
-              <p>Your personalized transformation blueprint — tailored to your life and goals.</p>
+              <p>Personalized architecture.</p>
             </div>
-          </div>
-          <div class="tl-step" data-step="2">
-            <div class="tl-step__marker"><div class="tl-step__dot"></div></div>
-            <div class="tl-step__body">
-              <span class="tl-step__label">STEP 03</span>
-              <h3>Execution & Support</h3>
-              <p>Daily structure, real-time problem solving, continuous accountability.</p>
+            <div class="h-panel h-panel--step">
+              <div class="step-marker step-marker--glow"></div>
+              <h3 class="accent">Execution</h3>
+              <p>Permanent results.</p>
             </div>
-          </div>
-          <div class="tl-step" data-step="3">
-            <div class="tl-step__marker"><div class="tl-step__dot"></div></div>
-            <div class="tl-step__body">
-              <span class="tl-step__label">STEP 04</span>
-              <h3>Transformation Achieved</h3>
-              <p>Systems internalized. Habits automatic. You've become who you envisioned.</p>
-            </div>
+
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- LAYER 6: Results / Social Proof -->
-    <section class="layer" id="sec-results" data-depth="6">
-      <div class="layer__content layer__content--centered">
-        <p class="kicker">THE PROOF</p>
-        <div class="big-stats" id="big-stats">
-          <div class="big-stat">
-            <span class="big-stat__num" data-count="500">0</span><span class="big-stat__suffix">+</span>
-            <span class="big-stat__label">Lives Transformed</span>
+      <!-- CTA / RESULTS SECTION (Stacking Card) -->
+      <section class="section cta-results stack-card" id="sec-cta">
+        <div class="container cta__container">
+          
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-num">500+</span>
+              <span class="stat-label">Lives Transformed</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">98%</span>
+              <span class="stat-label">Follow-Through</span>
+            </div>
           </div>
-          <div class="big-stat">
-            <span class="big-stat__num" data-count="98">0</span><span class="big-stat__suffix">%</span>
-            <span class="big-stat__label">Follow-Through Rate</span>
-          </div>
-          <div class="big-stat">
-            <span class="big-stat__num" data-count="30">0</span><span class="big-stat__suffix"> Days</span>
-            <span class="big-stat__label">Avg. Breakthrough</span>
-          </div>
+
+          <h2 class="cta-title">
+            <span class="cta-line">Stop Wishing.</span>
+            <span class="cta-line">Start <span class="accent">Transforming.</span></span>
+          </h2>
+          <p class="cta-sub">Message <strong>"T"</strong> to book your free orientation call.</p>
+          
+          <a href="https://wa.me/?text=T" class="cta-btn" target="_blank" rel="noopener">
+            <span class="cta-btn__glow"></span>
+            <span class="cta-btn__text">Begin My Transformation →</span>
+          </a>
+          <p class="cta-note">Free orientation call · No commitment</p>
+          
+          <footer class="footer">
+            <span>◆ SYNERGY TRANSFORMATIONS</span>
+            <span>© 2026 All rights reserved.</span>
+          </footer>
         </div>
-        <div class="testimonials" id="testimonials">
-          <div class="testi">
-            <p>"Nothing stuck until Synergy. The structure changed everything. For the first time, I'm executing."</p>
-            <span class="testi__author">— Rahul S., Entrepreneur</span>
-          </div>
-          <div class="testi">
-            <p>"The daily accountability alone is worth 10x. They solve every problem in real-time."</p>
-            <span class="testi__author">— Ananya P., Professional</span>
-          </div>
-          <div class="testi">
-            <p>"3 months in and I don't recognize my old self. This isn't coaching — it's engineering a new life."</p>
-            <span class="testi__author">— Vikram M., Student</span>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- LAYER 7: CTA — convergence point of light -->
-    <section class="layer layer--cta" id="sec-cta" data-depth="7">
-      <div class="layer__content layer__content--centered">
-        <p class="kicker">YOUR MOVE</p>
-        <h2 class="cta-title" id="cta-title">
-          <span class="cta-line">Stop Wishing.</span>
-          <span class="cta-line">Start <span class="accent">Transforming.</span></span>
-        </h2>
-        <p class="cta-sub">Message <strong>"T"</strong> to book your free orientation call.</p>
-        <a href="https://wa.me/?text=T" class="cta-btn" id="cta-btn" target="_blank" rel="noopener">
-          <span class="cta-btn__glow"></span>
-          <span class="cta-btn__text">Begin My Transformation →</span>
-        </a>
-        <p class="cta-note">Free orientation call · No commitment · One message changes everything</p>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <span>◆ SYNERGY TRANSFORMATIONS</span>
-      <span>© 2026 All rights reserved.</span>
-    </footer>
-
+    </div>
   </div>
 
   <script type="module" src="/src/main.js"></script>

@@ -1,51 +1,38 @@
 /* ========================================================
    SYNERGY TRANSFORMATIONS — Main Entry Point
-   Initializes: Lenis, GSAP, Three.js, all modules
+   Initializes: Lenis (Smooth Scroll), GSAP, and Navigation
    ======================================================== */
 import './style.css';
+import Lenis from 'lenis';
 import { gsap } from 'gsap';
-import { initScrollEngine, getLenis } from './modules/scroll-engine.js';
-import { initThreeScene } from './modules/three-scene.js';
-import { initParticles } from './modules/particles.js';
-import { initAnimations } from './modules/animations.js';
-import { initNavigation } from './modules/navigation.js';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Wait for DOM
+import { initAnimations } from './modules/animations';
+import { initNavigation } from './modules/navigation';
+
+gsap.registerPlugin(ScrollTrigger);
+
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize smooth scroll (Lenis + GSAP sync)
-  const lenis = initScrollEngine();
+  // 1. Initialize Lenis for buttery smooth scrolling
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+    smoothTouch: false,
+  });
 
-  // 2. Initialize Three.js scene (Camera starts at Z=0)
-  const { scene, camera, renderer, clock } = initThreeScene();
+  // 2. Sync Lenis with GSAP ScrollTrigger
+  lenis.on('scroll', ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
   
-  // 3. Populate 3D space with objects along the negative Z-axis
-  const particles = initParticles(scene);
+  gsap.ticker.lagSmoothing(0);
 
-  // 4. Initialize DOM scroll animations & Camera Z-axis mapping
-  initAnimations(camera, particles);
+  // 3. Initialize DOM scroll animations
+  initAnimations();
 
-  // 5. Initialize navigation
+  // 4. Initialize sticky navigation & progress bar
   initNavigation(lenis);
-
-  // 6. Main render loop — tied to GSAP ticker for perf
-  gsap.ticker.add(() => {
-    const elapsed = clock.getElapsedTime();
-    particles.update(elapsed);
-    renderer.render(scene, camera);
-  });
-
-  // 7. Handle resize
-  window.addEventListener('resize', () => {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  });
-
-  // Remove loading state
-  document.body.classList.add('is-loaded');
-
-  console.log('✦ Synergy Transformations — True 3D Initialized');
 });

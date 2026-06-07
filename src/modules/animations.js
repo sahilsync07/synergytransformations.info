@@ -1,6 +1,5 @@
 /* ========================================================
-   True 3D Scrollytelling Animations
-   Maps scroll progress to Camera Z-axis + DOM Fly-throughs
+   CINEMATIC DOM ANIMATIONS (Apple-Style Scrollytelling)
    ======================================================== */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -8,248 +7,135 @@ import SplitType from 'split-type';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function initAnimations(camera, particles) {
-  // 1. CAMERA FLY-THROUGH (The core 3D mechanic)
-  // Entire page scroll drives the camera deep into the Z-axis
-  const maxDepth = -7000;
+export function initAnimations() {
   
-  ScrollTrigger.create({
-    trigger: document.body,
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: 1.5, // 1.5s smoothing
-    onUpdate: (self) => {
-      // Move camera deep into Z space
-      camera.position.z = self.progress * maxDepth;
-      
-      // Add slight X and Y wobble to make it feel like floating
-      camera.position.x = Math.sin(self.progress * Math.PI * 4) * 20;
-      camera.position.y = Math.cos(self.progress * Math.PI * 4) * 10;
-      
-      // Look slightly around
-      camera.lookAt(
-        Math.sin(self.progress * Math.PI * 2) * 50,
-        Math.cos(self.progress * Math.PI * 2) * 50,
-        camera.position.z - 1000
+  // 1. KINETIC TYPOGRAPHY (Hero)
+  const heroText = new SplitType('.split-text', { types: 'chars' });
+  const heroTl = gsap.timeline({ delay: 0.2 });
+
+  heroTl.fromTo(
+    '.kicker[data-reveal]',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
+  );
+
+  heroTl.fromTo(
+    heroText.chars,
+    { opacity: 0, yPercent: 100, rotateX: -90 },
+    {
+      opacity: 1,
+      yPercent: 0,
+      rotateX: 0,
+      duration: 1.2,
+      stagger: 0.04,
+      ease: 'back.out(1.5)',
+      transformOrigin: '50% 100%'
+    },
+    "-=0.6"
+  );
+  
+  heroTl.fromTo(
+    '#scroll-cue',
+    { opacity: 0, y: 10 },
+    { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
+    "-=0.4"
+  );
+
+  // 2. HERO FADE & SCALE ON SCROLL
+  gsap.to('.hero__container', {
+    scrollTrigger: {
+      trigger: '#sec-hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
+    },
+    opacity: 0,
+    scale: 0.9,
+    y: 100
+  });
+
+  // 3. CINEMATIC VIDEO REVEAL
+  // As user scrolls, the text splits and the video expands to full screen
+  const videoSplit = new SplitType('.vr-split', { types: 'words, chars' });
+  
+  const videoTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#sec-video',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      pin: '.video-reveal__sticky'
+    }
+  });
+
+  // Part the text outwards
+  videoTl.to(videoSplit.chars, {
+    y: -100,
+    opacity: 0,
+    stagger: { amount: 0.5, from: 'center' },
+    ease: 'power2.inOut'
+  }, 0);
+
+  // Expand the video window
+  // Initial clip-path in CSS: inset(45% 30% 45% 30% round 16px)
+  // Target: inset(0% 0% 0% 0% round 0px)
+  videoTl.to('#video-window', {
+    clipPath: 'inset(0% 0% 0% 0% round 0px)',
+    filter: 'grayscale(0%) contrast(1)',
+    scale: 1,
+    ease: 'none'
+  }, 0);
+
+  // 4. STACKING CARDS (Philosophy & CTA)
+  // These sections slide up and cover the previous content.
+  const stackCards = gsap.utils.toArray('.stack-card');
+  stackCards.forEach((card, i) => {
+    // Reveal animation for content inside the card
+    const quoteLines = card.querySelectorAll('.mq-line');
+    if (quoteLines.length > 0) {
+      const qSplit = new SplitType(quoteLines, { types: 'words' });
+      gsap.fromTo(qSplit.words,
+        { opacity: 0, y: 50 },
+        {
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 70%',
+            end: 'center center',
+            scrub: 1
+          },
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          ease: 'power2.out'
+        }
       );
     }
   });
 
-  // ==========================================
-  // EXTRAORDINARY 4-ACT 3D SEQUENCE TRIGGERS
-  // ==========================================
-
-  // Act 2 Trigger: Chaos -> Alignment
-  ScrollTrigger.create({
-    trigger: '#sec-bridge', // The Alignment section
-    start: 'top bottom',
-    end: 'center center',
-    scrub: 1,
-    onUpdate: (self) => {
-      // Assemble the scattered shards into the massive geometric shape
-      particles.chaosUniforms.uProgress.value = self.progress;
-    }
-  });
-
-  // Act 3 Trigger: Warp Tunnel Acceleration
-  ScrollTrigger.create({
-    trigger: '#sec-method',
-    start: 'top bottom',
-    end: 'bottom top',
-    scrub: 0.5,
-    onUpdate: (self) => {
-      // Particles stretch into streaks of light based on scroll speed
-      particles.warpUniforms.uSpeed.value = self.getVelocity() * 0.005;
-    }
-  });
-
-  // Act 4 Trigger: Convergence Core
-  ScrollTrigger.create({
-    trigger: '#sec-cta',
-    start: 'top bottom',
-    end: 'bottom bottom',
-    scrub: 1,
-    onUpdate: (self) => {
-      // The massive star core at the end fades in intensely
-      particles.coreMat.opacity = self.progress;
-      particles.coreGlowMat.opacity = self.progress * 0.5;
-    }
-  });
-
-  // ==========================================
-  // DOM ANIMATIONS
-  // ==========================================
-
-  // 2. KINETIC TYPOGRAPHY (Hero)
-  const heroText = new SplitType('.split-text', { types: 'chars' });
-  const heroTl = gsap.timeline({ delay: 0.2 });
-  
-  heroTl.fromTo(heroText.chars, 
-    { y: '110%', rotateX: 40, opacity: 0 },
-    {
-      y: '0%',
-      rotateX: 0,
-      opacity: 1,
-      duration: 1.2,
-      stagger: 0.04,
-      ease: 'power4.out',
-      transformOrigin: 'bottom center'
-    }
-  )
-  .to('#scroll-cue', {
-    opacity: 1,
-    duration: 1
-  }, '-=0.5');
-
-  // Fade out hero as camera flies past it
-  gsap.to('#sec-void .layer__content', {
-    scrollTrigger: {
-      trigger: '#sec-void',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 1
-    },
-    scale: 2, // Fly past effect
-    opacity: 0,
-    filter: 'blur(10px)',
-    ease: 'power1.in'
-  });
-
-  // 3. LAYER FLY-THROUGHS (The DOM elements coming at you from Z depth)
-  const layers = document.querySelectorAll('.layer:not(#sec-void)');
-  
-  layers.forEach((layer) => {
-    // Start small and faded (far away), grow to normal, then get huge and fade out (fly past)
-    gsap.fromTo(layer.querySelector('.layer__content'), 
-      {
-        scale: 0.5,
-        opacity: 0,
-        y: 100
-      },
-      {
-        scrollTrigger: {
-          trigger: layer,
-          start: 'top bottom', // Start animating when top of layer hits bottom of viewport
-          end: 'center center', // Fully visible when centered
-          scrub: 1
-        },
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        ease: 'power2.out'
-      }
-    );
-
-    // Fly past the camera as user keeps scrolling
-    gsap.to(layer.querySelector('.layer__content'), {
-      scrollTrigger: {
-        trigger: layer,
-        start: 'center center',
-        end: 'bottom top',
-        scrub: 1
-      },
-      scale: 1.8,
-      opacity: 0,
-      filter: 'blur(15px)',
-      ease: 'power2.in'
-    });
-  });
-
-  // 4. FLOATING PAIN WORDS
-  gsap.utils.toArray('.pain-word').forEach(word => {
-    const x = word.dataset.floatX || 0;
-    const y = word.dataset.floatY || 0;
+  // 5. HORIZONTAL SCROLL (Pillars & Journey)
+  const hTrack = document.getElementById('h-track');
+  if (hTrack && window.innerWidth > 768) {
+    const panels = gsap.utils.toArray('.h-panel');
+    // Calculate total distance to scroll horizontally
+    // (Total width of track - window width)
     
-    // Set initial position immediately
-    gsap.set(word, { x: `${x}vw`, y: `${y}vh` });
-
-    gsap.fromTo(word, 
-      { opacity: 0, scale: 0.2 },
-      {
-        scrollTrigger: {
-          trigger: '#sec-pain',
-          start: 'top 60%',
-          end: 'center center',
-          scrub: 1
-        },
-        opacity: 1,
-        scale: 1,
-        ease: 'power2.out',
-        color: 'hsla(0,70%,60%,0.6)'
-      }
-    );
-  });
-
-  // 5. MEGA QUOTE STAGGER
-  gsap.fromTo('.mega-quote__line', 
-    { opacity: 0, rotateX: 20, y: 50 },
-    {
-      scrollTrigger: {
-        trigger: '#sec-bridge',
-        start: 'top 60%',
-        end: 'center center',
-        scrub: 1
-      },
-      opacity: 1,
-      rotateX: 0,
-      y: 0,
-      stagger: 0.1,
-      ease: 'power2.out'
+    // We use a functional end value so it recalculates on resize
+    function getScrollAmount() {
+      let trackWidth = hTrack.scrollWidth;
+      return -(trackWidth - window.innerWidth);
     }
-  );
 
-  // 6. RYAN'S VIDEO GLOW
-  gsap.fromTo('#video-frame', 
-    { opacity: 0, rotateX: 10, scale: 0.9 },
-    {
+    gsap.to(panels, {
+      x: getScrollAmount,
+      ease: 'none',
       scrollTrigger: {
-        trigger: '#sec-video',
-        start: 'top 70%',
-        end: 'center center',
-        scrub: 1
-      },
-      opacity: 1,
-      rotateX: 0,
-      scale: 1,
-      ease: 'power2.out'
-    }
-  );
-
-  // 7. COUNTERS
-  document.querySelectorAll('.big-stat__num').forEach((counter) => {
-    const target = parseInt(counter.dataset.count, 10);
-    ScrollTrigger.create({
-      trigger: '#sec-results',
-      start: 'top center',
-      once: true,
-      onEnter: () => {
-        gsap.to(counter, {
-          innerText: target,
-          duration: 2,
-          snap: { innerText: 1 },
-          ease: 'power3.out',
-          onUpdate: function() {
-            counter.textContent = Math.round(parseFloat(counter.textContent));
-          }
-        });
+        trigger: '#sec-horizontal',
+        start: 'top top',
+        end: () => `+=${getScrollAmount() * -1}`,
+        scrub: 1,
+        pin: true,
+        invalidateOnRefresh: true
       }
     });
-  });
-
-  // 8. CTA REVEAL
-  gsap.fromTo('.cta-title .cta-line', 
-    { opacity: 0, y: 50 },
-    {
-      scrollTrigger: {
-        trigger: '#sec-cta',
-        start: 'top 60%',
-        end: 'center center',
-        scrub: 1
-      },
-      opacity: 1,
-      y: 0,
-      stagger: 0.2,
-      ease: 'power2.out'
-    }
-  );
+  }
 }
