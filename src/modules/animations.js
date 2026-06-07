@@ -68,23 +68,22 @@ export function initAnimations() {
     }
   });
 
-  // Part the text outwards
-  videoTl.to(videoSplit.chars, {
-    y: -100,
+  // Part the text outwards (The goes up, Reality goes down)
+  videoTl.to(videoSplit.words, {
+    y: (i) => i === 0 ? -150 : 150,
     opacity: 0,
-    stagger: { amount: 0.5, from: 'center' },
+    duration: 0.5,
     ease: 'power2.inOut'
   }, 0);
 
-  // Expand the video window
-  // Initial clip-path in CSS: inset(45% 30% 45% 30% round 16px)
-  // Target: inset(0% 0% 0% 0% round 0px)
+  // Expand the video window AFTER text starts parting
   videoTl.to('#video-window', {
     clipPath: 'inset(0% 0% 0% 0% round 0px)',
-    filter: 'grayscale(0%) contrast(1)',
+    filter: 'grayscale(0%) contrast(1) brightness(1)',
     scale: 1,
-    ease: 'none'
-  }, 0);
+    duration: 1,
+    ease: 'power2.inOut'
+  }, 0.2);
 
   // 4. STACKING CARDS (Philosophy & CTA)
   // These sections slide up and cover the previous content.
