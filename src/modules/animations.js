@@ -55,9 +55,7 @@ export function initAnimations() {
   });
 
   // 3. CINEMATIC VIDEO REVEAL
-  // As user scrolls, the text splits and the video expands to full screen
-  const videoSplit = new SplitType('.vr-split', { types: 'words, chars' });
-  
+  // As user scrolls, the text parts and the video expands to full screen
   const videoTl = gsap.timeline({
     scrollTrigger: {
       trigger: '#sec-video',
@@ -69,12 +67,8 @@ export function initAnimations() {
   });
 
   // Part the text outwards (The goes up, Reality goes down)
-  videoTl.to(videoSplit.words, {
-    y: (i) => i === 0 ? -150 : 150,
-    opacity: 0,
-    duration: 0.5,
-    ease: 'power2.inOut'
-  }, 0);
+  videoTl.to('#vr-word-top', { y: -150, opacity: 0, duration: 0.5, ease: 'power2.inOut' }, 0);
+  videoTl.to('#vr-word-bottom', { y: 150, opacity: 0, duration: 0.5, ease: 'power2.inOut' }, 0);
 
   // Expand the video window AFTER text starts parting
   videoTl.to('#video-window', {
