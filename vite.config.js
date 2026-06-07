@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/https-synergytransformations.info-/',
+  base: '/synergytransformations.info/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
