@@ -31,8 +31,13 @@ export function initThreeScene() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
 
-  // Clock
-  const clock = new THREE.Clock();
+  // Simple elapsed time tracker (avoids deprecated THREE.Clock)
+  const startTime = performance.now();
+  const clock = {
+    getElapsedTime() {
+      return (performance.now() - startTime) / 1000;
+    },
+  };
 
   return { scene, camera, renderer, clock, canvas };
 }
