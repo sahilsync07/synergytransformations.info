@@ -1,0 +1,406 @@
+/* ==========================================================================
+   VIDEO REVEAL SECTION
+   ========================================================================== */
+
+#sec-video {
+  height: 300vh;
+  position: relative;
+  background: var(--bg);
+  overflow: visible; /* Allows child sticky container to stack smoothly */
+}
+
+/* Sticky Container */
+.video-reveal__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  z-index: 10;
+}
+
+/* Cinematic Ambient Backlight Glow */
+.video-reveal__sticky::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(212, 164, 74, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Subtle Vignette Overlay for Cinematic Backdrop */
+.video-reveal__sticky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 30%, rgba(5, 5, 5, 0.85) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Text Overlay Styling */
+.video-reveal__text-overlay {
+  position: absolute;
+  z-index: 4; /* Above the frame and video window */
+  pointer-events: none;
+  width: 100%;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-reveal__title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 11vw, 9rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text);
+  /* Cinematic text shadow for extreme legibility over video */
+  text-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.95),
+    0 0 80px rgba(212, 164, 74, 0.12);
+}
+
+#vr-word-top,
+#vr-word-bottom {
+  display: block;
+  will-change: transform, opacity;
+}
+
+#vr-word-bottom.accent {
+  padding-bottom: 0.05em; /* Avoid clipping descenders in Syne font */
+}
+
+/* Video Window (Initial slit state) */
+.video-reveal__window {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  /* Anamorphic aspect ratio starting slit */
+  clip-path: inset(45% 20% 45% 20% round 16px);
+  filter: grayscale(100%) contrast(1.25) brightness(0.4);
+  transform: scale(1.12);
+  will-change: clip-path, transform, filter;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
+  transition: box-shadow 0.5s ease;
+}
+
+/* Gold Glowing Frame Inside the Slit */
+.video-reveal__frame {
+  position: absolute;
+  inset: 1px; /* Slightly inside the clip-path to prevent border-clipping */
+  border: 1.5px solid var(--gold);
+  border-radius: 15px; /* Slightly smaller than 16px to match inset: 1px */
+  pointer-events: none;
+  z-index: 3;
+  box-shadow: 
+    0 0 35px rgba(212, 164, 74, 0.3),
+    inset 0 0 25px rgba(212, 164, 74, 0.15);
+  will-change: opacity, border-radius;
+  opacity: 0.85;
+  transition: opacity 0.8s ease;
+}
+
+/* Cinematic Video Vignette (Darkens video edges inside the slit) */
+.video-reveal__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 40%, rgba(5, 5, 5, 0.75) 100%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 2;
+  will-change: opacity;
+  opacity: 0.8;
+  transition: opacity 1s ease;
+}
+
+/* Responsive Iframe Cover */
+.video-reveal__window iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 56.25vw; /* 16:9 Aspect Ratio */
+  min-height: 100vh;
+  min-width: 177.78vh;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Let scroll-events pass through during scroll-reveal */
+  border: none;
+}
+
+/* Play/Scroll Status Indicator */
+.video-reveal__indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-dim);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.video-reveal__indicator-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: pulseLine 2s infinite ease-in-out;
+}
+
+@keyframes pulseLine {
+  0%, 100% { transform: scaleY(0.6); transform-origin: top; opacity: 0.4; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+}
+
+/* Active states toggled when video is fully expanded */
+.video-reveal--interactive .video-reveal__window iframe {
+  pointer-events: auto;
+}
+
+.video-reveal--interactive .video-reveal__frame,
+.video-reveal--interactive .video-reveal__vignette,
+.video-reveal--interactive .video-reveal__indicator {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s, visibility 0.6s;
+}
+
+
+/* ==========================================================================
+   PHILOSOPHY SECTION
+   ========================================================================== */
+
+.philosophy {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: radial-gradient(circle at center, #0e0e0e 0%, var(--bg-elevated) 100%);
+  z-index: 15; /* Sits above sticky video reveal to stack over it */
+  
+  /* Elevate philosophy section with a gorgeous multi-layered shadow and clean top line */
+  box-shadow: 
+    0 -30px 100px rgba(0, 0, 0, 0.95), 
+    0 -10px 40px rgba(212, 164, 74, 0.03);
+  padding: 8rem 0;
+  overflow: hidden;
+}
+
+/* Glowing Top Horizon Line separating Video from Philosophy */
+.philosophy::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--gold) 20%, 
+    var(--gold-bright) 50%, 
+    var(--gold) 80%, 
+    transparent 100%
+  );
+  opacity: 0.8;
+}
+
+.philosophy__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  width: 100%;
+}
+
+/* Emblem Symbol */
+.philosophy__emblem {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  letter-spacing: 0.3em;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+
+/* Mega-Quote Typography */
+.mega-quote {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.2vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  max-width: 1020px;
+  margin: 0 auto 2.5rem;
+}
+
+.mq-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+}
+
+/* SplitType Word Animation Styles */
+.mq-line .word {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
+}
+
+/* Accent Word Gradient Fix (Resolves SplitType text gradient bug) */
+.accent:has(.word) {
+  background: none !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: unset !important;
+}
+
+.accent .word {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 2px 12px rgba(212, 164, 74, 0.15));
+}
+
+/* Philosophy Citation */
+.philosophy__cite {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.philosophy__cite::before,
+.philosophy__cite::after {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--glass-border);
+}
+
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .mega-quote {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    line-height: 1.25;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Video Reveal Section Scroll Height */
+  #sec-video {
+    height: 200vh;
+  }
+
+  .video-reveal__sticky {
+    height: 100vh;
+    height: 100dvh;
+  }
+  
+  .video-reveal__sticky::after {
+    background: radial-gradient(circle at center, transparent 40%, rgba(5, 5, 5, 0.9) 100%);
+  }
+
+  /* Text Overlay on Mobile */
+  .video-reveal__title {
+    font-size: clamp(2.2rem, 11vw, 4.2rem);
+    letter-spacing: -0.03em;
+  }
+
+  /* Slit Window on Mobile: adjusted aspect ratio for mobile screens */
+  .video-reveal__window {
+    clip-path: inset(38% 5% 38% 5% round 12px);
+    transform: scale(1.08);
+  }
+
+  /* Mobile Glowing Frame */
+  .video-reveal__frame {
+    inset: 1px;
+    border-radius: 11px; /* matches 12px round */
+    border-width: 1px;
+    box-shadow: 
+      0 0 15px rgba(212, 164, 74, 0.3),
+      inset 0 0 10px rgba(212, 164, 74, 0.15);
+  }
+
+  /* Mobile Indicator */
+  .video-reveal__indicator {
+    bottom: 2rem;
+  }
+  .video-reveal__indicator-line {
+    height: 25px;
+  }
+
+  /* Philosophy Section on Mobile */
+  .philosophy {
+    min-height: 80vh;
+    padding: 6rem 0;
+  }
+
+  .philosophy__emblem {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .mega-quote {
+    font-size: clamp(1.4rem, 6vw, 1.95rem);
+    line-height: 1.35;
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .philosophy__cite {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Narrow screens, optimize slit height to ensure good frame layout */
+  .video-reveal__window {
+    clip-path: inset(40% 4% 40% 4% round 8px);
+  }
+
+  .video-reveal__frame {
+    border-radius: 7px;
+  }
+}

@@ -29,6 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   gsap.ticker.lagSmoothing(0);
 
+  // 2. Viewport Glow Effect
+  const glowOverlay = document.getElementById('viewport-glow');
+  if (glowOverlay) {
+    let scrollTimeout;
+    lenis.on('scroll', (e) => {
+      const velocity = Math.abs(e.velocity || 0);
+      const intensity = Math.min(0.2 + (velocity * 0.025), 0.5);
+      glowOverlay.style.opacity = intensity.toString();
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        glowOverlay.style.opacity = '0';
+      }, 150);
+    });
+  }
+
   // 3. Animations
   initAnimations();
 

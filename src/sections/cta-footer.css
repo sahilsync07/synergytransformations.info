@@ -1,0 +1,379 @@
+/* ==========================================================================
+   SECTION: CTA & FOOTER (Vibe: Premium, Cinematic, High-Conversion)
+   ========================================================================== */
+
+#sec-cta {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 45%, rgba(212, 164, 74, 0.08) 0%, rgba(5, 5, 5, 0) 70%), var(--bg-elevated);
+  z-index: 20;
+  box-shadow: 0 -30px 100px rgba(0, 0, 0, 0.85);
+  border-top: 1px solid var(--glass-border);
+  padding: 8rem 0 6rem;
+  overflow: hidden;
+}
+
+/* 1. BACKGROUND GLOW ORB */
+#sec-cta .cta-glow-orb {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(750px, 90vw);
+  height: min(750px, 90vw);
+  background: radial-gradient(circle, rgba(212, 164, 74, 0.12) 0%, rgba(212, 164, 74, 0.03) 45%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(50px);
+  animation: ctaOrbPulse 10s infinite ease-in-out;
+}
+
+@keyframes ctaOrbPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 1.1;
+  }
+}
+
+/* 2. CONTAINER STACKING */
+#sec-cta .cta__container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+/* 3. CREDIBILITY STATS SECTION */
+#sec-cta .stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(3rem, 7vw, 9rem);
+  margin-bottom: 4.5rem;
+  position: relative;
+}
+
+/* Elegant vertical divider between stats on desktop */
+#sec-cta .stats-row::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--glass-border) 20%, var(--glass-border) 80%, transparent);
+  transform: translateX(-50%);
+}
+
+#sec-cta .stat-item {
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#sec-cta .stat-item:hover {
+  transform: translateY(-5px);
+}
+
+#sec-cta .stat-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 15px rgba(212, 164, 74, 0.15));
+  margin-bottom: 0.5rem;
+}
+
+#sec-cta .stat-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: color 0.4s ease;
+}
+
+#sec-cta .stat-item:hover .stat-label {
+  color: var(--text);
+}
+
+/* 4. TYPOGRAPHY & TITLE */
+#sec-cta .cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5.5vw, 5.2rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+  max-width: 850px;
+}
+
+#sec-cta .cta-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.05em;
+}
+
+/* Gradient accent glow for 'Transforming.' */
+#sec-cta .cta-title .accent {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 40px rgba(212, 164, 74, 0.12);
+}
+
+/* 5. SUBTITLE & COPY */
+#sec-cta .cta-sub {
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 3.5rem;
+  max-width: 540px;
+}
+
+#sec-cta .cta-sub strong {
+  color: var(--gold-bright);
+  font-weight: 600;
+  border-bottom: 1px dashed rgba(245, 197, 99, 0.4);
+  padding-bottom: 2px;
+}
+
+/* 6. CONVERSION BUTTON (The Focal Point) */
+#sec-cta .cta-btn-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+#sec-cta .cta-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 3.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+  color: #050505;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  z-index: 2;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: pointer;
+}
+
+/* Light swipe animation overlay */
+#sec-cta .cta-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transition: left 0.75s ease;
+  z-index: 1;
+}
+
+#sec-cta .cta-btn:hover::after {
+  left: 100%;
+}
+
+#sec-cta .cta-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(212, 164, 74, 0.35);
+}
+
+#sec-cta .cta-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  transition: transform 0.1s;
+}
+
+/* Pulsing background blur */
+#sec-cta .cta-btn__glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+  z-index: -1;
+  filter: blur(20px);
+  opacity: 0.6;
+  pointer-events: none;
+  transform-origin: center;
+  animation: ctaBtnGlowBreathing 3s infinite ease-in-out;
+}
+
+@keyframes ctaBtnGlowBreathing {
+  0%, 100% {
+    transform: scale(1);
+    filter: blur(15px);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.08, 1.25);
+    filter: blur(25px);
+    opacity: 0.85;
+  }
+}
+
+/* 7. MICRO COPY (Note) */
+#sec-cta .cta-note {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  opacity: 0.95;
+  margin-top: 0.25rem;
+}
+
+/* 8. FOOTER */
+#sec-cta .footer {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 0;
+  right: 0;
+  padding: 0 clamp(2rem, 5vw, 4rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  padding-top: 2rem;
+  pointer-events: none;
+}
+
+#sec-cta .footer span {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Tablets & Mobile)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  #sec-cta {
+    padding: 6rem 0 4rem;
+    min-height: auto;
+  }
+
+  #sec-cta .cta-glow-orb {
+    top: 35%;
+    width: 85vw;
+    height: 85vw;
+    filter: blur(40px);
+  }
+
+  #sec-cta .stats-row {
+    flex-direction: row;
+    gap: clamp(2rem, 5vw, 4rem);
+    margin-bottom: 3rem;
+  }
+
+  #sec-cta .stat-num {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+  }
+
+  #sec-cta .cta-title {
+    font-size: clamp(2.2rem, 7.5vw, 3.8rem);
+    line-height: 1.1;
+    padding: 0 1rem;
+  }
+
+  #sec-cta .cta-sub {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    padding: 0 1.5rem;
+  }
+
+  #sec-cta .cta-btn {
+    padding: 1.1rem 2.8rem;
+    font-size: 1rem;
+  }
+
+  #sec-cta .footer {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 3rem 1.5rem 1rem;
+    margin-top: 4.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  #sec-cta .stats-row {
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+  }
+
+  #sec-cta .stats-row::after {
+    left: 50%;
+    top: 50%;
+    height: 1px;
+    width: 60px;
+    background: var(--glass-border);
+    transform: translate(-50%, -50%);
+  }
+
+  #sec-cta .stat-num {
+    font-size: 3.5rem;
+  }
+
+  #sec-cta .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+  }
+
+  #sec-cta .cta-title {
+    font-size: 2.2rem;
+  }
+
+  #sec-cta .cta-btn-wrapper {
+    width: 100%;
+    padding: 0 1.5rem;
+  }
+
+  #sec-cta .cta-btn {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1.1rem 1.5rem;
+    min-height: 48px; /* High accessibility touch target */
+  }
+}

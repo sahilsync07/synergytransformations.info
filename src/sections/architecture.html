@@ -1,0 +1,88 @@
+<!-- ==========================================================================
+   RECOMMENDED HTML UPDATES FOR THE HORIZONTAL SECTION (index.html)
+   ========================================================================== -->
+
+To enhance the visual hierarchy, add detailed feature sets to the glass cards, and implement timeline phases, update the content of `<section class="section horizontal" id="sec-horizontal">` (lines 86-145) to the following:
+
+```html
+      <!-- HORIZONTAL SCROLL SECTION (Pillars + Journey) -->
+      <section class="section horizontal" id="sec-horizontal">
+        <div class="horizontal__sticky">
+          <div class="horizontal__track" id="h-track">
+            
+            <!-- Intro Panel -->
+            <div class="h-panel h-panel--intro">
+              <p class="kicker">THE METHOD</p>
+              <h2 class="h-title">The Synergy <br/><span class="accent">Architecture</span></h2>
+              <p class="h-desc">A step-by-step system replacing chaos with absolute clarity.</p>
+            </div>
+
+            <!-- Pillar Cards -->
+            <div class="h-panel h-panel--card">
+              <div class="glass-card">
+                <span class="card-num">01</span>
+                <h3>Structured Framework</h3>
+                <p>A master plan replacing guesswork with precision execution.</p>
+                <ul class="card-features">
+                  <li><span>◆</span> Lifestyle Diagnostic</li>
+                  <li><span>◆</span> Habit Architecture</li>
+                  <li><span>◆</span> Precision Roadmaps</li>
+                </ul>
+              </div>
+            </div>
+            <div class="h-panel h-panel--card">
+              <div class="glass-card">
+                <span class="card-num">02</span>
+                <h3>Discipline Engine</h3>
+                <p>Engineering habits that stick. Discipline becomes automatic.</p>
+                <ul class="card-features">
+                  <li><span>◆</span> Action-oriented Habits</li>
+                  <li><span>◆</span> Friction Elimination</li>
+                  <li><span>◆</span> Automated Protocols</li>
+                </ul>
+              </div>
+            </div>
+            <div class="h-panel h-panel--card">
+              <div class="glass-card">
+                <span class="card-num">03</span>
+                <h3>Real-Time Solutions</h3>
+                <p>Every roadblock addressed instantly. You're never alone.</p>
+                <ul class="card-features">
+                  <li><span>◆</span> Dynamic Pivot-Strategies</li>
+                  <li><span>◆</span> Daily Support Channels</li>
+                  <li><span>◆</span> Proactive Interventions</li>
+                </ul>
+              </div>
+            </div>
+            
+            <!-- Journey Intro (Fading Divider to the left is handled dynamically via CSS) -->
+            <div class="h-panel h-panel--intro" style="margin-left: 10vw;">
+              <p class="kicker">YOUR PATH</p>
+              <h2 class="h-title">The <br/><span class="accent">Journey</span></h2>
+              <p class="h-desc">A progressive evolution designed for sustainable, long-term mastery.</p>
+            </div>
+            
+            <!-- Journey Steps -->
+            <div class="h-panel h-panel--step">
+              <div class="step-marker"></div>
+              <span class="step-phase">PHASE 01</span>
+              <h3>Orientation Call</h3>
+              <p>Deep-dive diagnostic mapping baseline metrics and lifestyle constraints.</p>
+            </div>
+            <div class="h-panel h-panel--step">
+              <div class="step-marker"></div>
+              <span class="step-phase">PHASE 02</span>
+              <h3>Blueprint Design</h3>
+              <p>Crafting your bespoke execution framework and dynamic routines.</p>
+            </div>
+            <div class="h-panel h-panel--step">
+              <div class="step-marker step-marker--glow"></div>
+              <span class="step-phase step-phase--active">PHASE 03</span>
+              <h3 class="accent">Execution</h3>
+              <p>Continuous evolution, active daily feedback, and permanent results.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+```

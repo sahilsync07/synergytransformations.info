@@ -1,0 +1,123 @@
+<!-- 
+  ==========================================================================
+  HTML INTEGRATION GUIDE: VIDEO REVEAL & PHILOSOPHY SECTIONS
+  File: src/sections/video-philosophy.html
+  ==========================================================================
+  Follow the instructions below to apply the structural changes to index.html.
+-->
+
+### 1. Stylesheet Integration
+In the `<head>` section of `index.html`, or in `src/main.js`, ensure the new section stylesheet is loaded. 
+
+**Vite Recommendation (Add to src/main.js):**
+```javascript
+import './sections/video-philosophy.css';
+```
+
+---
+
+### 2. Video Reveal Section Upgrades (index.html, lines 47-70)
+Replace the existing `#sec-video` section block with this updated markup that adds the **glowing frame**, **cinematic vignette**, and **reveal indicator**:
+
+```diff
+-      <!-- VIDEO REVEAL SECTION -->
+-      <section class="section video-reveal" id="sec-video">
+-        <div class="video-reveal__sticky">
+-          <!-- Text that parts away -->
+-          <div class="video-reveal__text-overlay">
+-            <h2 class="video-reveal__title">
+-              <div id="vr-word-top" style="display:block;">The</div>
+-              <div id="vr-word-bottom" class="accent" style="display:block;">Reality</div>
+-            </h2>
+-          </div>
+-          
+-          <!-- The expanding video window -->
+-          <div class="video-reveal__window" id="video-window">
+-            <iframe
+-              id="ryan-video"
+-              src="https://drive.google.com/file/d/1Udj5PXKnqeNSCr5-mAK2io0lFfbC80cT/preview"
+-              frameborder="0"
+-              allow="autoplay; encrypted-media"
+-              allowfullscreen
+-              loading="lazy"
+-              title="Ryan's Transformation Vision"
+-            ></iframe>
+-          </div>
+-        </div>
+-      </section>
++      <!-- VIDEO REVEAL SECTION -->
++      <section class="section video-reveal" id="sec-video">
++        <div class="video-reveal__sticky">
++          <!-- Text that parts away -->
++          <div class="video-reveal__text-overlay">
++            <h2 class="video-reveal__title">
++              <div id="vr-word-top" style="display:block;">The</div>
++              <div id="vr-word-bottom" class="accent" style="display:block;">Reality</div>
++            </h2>
++          </div>
++          
++          <!-- The expanding video window -->
++          <div class="video-reveal__window" id="video-window">
++            <!-- Glowing Border Frame Overlay -->
++            <div class="video-reveal__frame"></div>
++            
++            <!-- Cinematic Inner Vignette Overlay -->
++            <div class="video-reveal__vignette"></div>
++            
++            <iframe
++              id="ryan-video"
++              src="https://drive.google.com/file/d/1Udj5PXKnqeNSCr5-mAK2io0lFfbC80cT/preview"
++              frameborder="0"
++              allow="autoplay; encrypted-media"
++              allowfullscreen
++              loading="lazy"
++              title="Ryan's Transformation Vision"
++            ></iframe>
++          </div>
++
++          <!-- Scroll-Driven Reveal Indicator -->
++          <div class="video-reveal__indicator" id="vr-indicator">
++            <span class="video-reveal__indicator-line"></span>
++            <span>Reveal Reality</span>
++          </div>
++        </div>
++      </section>
+```
+
+---
+
+### 3. Philosophy Section Upgrades (index.html, lines 72-83)
+Replace the existing `#sec-philosophy` block with this structure, adding the **emblem kicker** and **quote citation metadata**:
+
+```diff
+-      <!-- PHILOSOPHY SECTION (Stacking Card) -->
+-      <section class="section philosophy stack-card" id="sec-philosophy">
+-        <div class="container philosophy__container">
+-          <blockquote class="mega-quote">
+-            <span class="mq-line">Transformation</span>
+-            <span class="mq-line">is not motivation.</span>
+-            <span class="mq-line accent">It is structure,</span>
+-            <span class="mq-line accent">discipline, and</span>
+-            <span class="mq-line accent">follow-through.</span>
+-          </blockquote>
+-        </div>
+-      </section>
++      <!-- PHILOSOPHY SECTION (Stacking Card) -->
++      <section class="section philosophy stack-card" id="sec-philosophy">
++        <div class="container philosophy__container">
++          <!-- Emblem Symbol Kicker -->
++          <div class="philosophy__emblem" data-reveal>◆ ◆ ◆</div>
++
++          <blockquote class="mega-quote">
++            <span class="mq-line">Transformation</span>
++            <span class="mq-line">is not motivation.</span>
++            <span class="mq-line accent">It is structure,</span>
++            <span class="mq-line accent">discipline, and</span>
++            <span class="mq-line accent">follow-through.</span>
++          </blockquote>
++
++          <!-- Foundational Citation -->
++          <cite class="philosophy__cite">THE SYNERGY TRANSFORMATION CODE</cite>
++        </div>
++      </section>
+```

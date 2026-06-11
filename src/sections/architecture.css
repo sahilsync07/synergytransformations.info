@@ -1,0 +1,544 @@
+/* ==========================================================================
+   ARCHITECTURE & JOURNEY SECTION (HORIZONTAL SCROLL)
+   Premium Cinematic Design System — Synergy Transformations
+   ========================================================================== */
+
+/* Radial glow effect behind the section to create depth */
+#sec-horizontal {
+  position: relative;
+  background-color: var(--bg);
+  overflow: hidden;
+}
+
+#sec-horizontal::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(circle, rgba(212, 164, 74, 0.04) 0%, rgba(212, 164, 74, 0.01) 50%, transparent 80%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+#sec-horizontal::after {
+  content: '';
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(245, 197, 99, 0.03) 0%, rgba(245, 197, 99, 0.005) 60%, transparent 80%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Sticky Container (Desktop) */
+.horizontal__sticky {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+
+/* Horizontal track holding all panels */
+.horizontal__track {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(3rem, 5vw, 6rem);
+  padding: 0 clamp(4rem, 8vw, 10rem);
+  height: 60vh;
+  min-height: 480px;
+  max-height: 620px;
+  will-change: transform;
+  z-index: 3;
+}
+
+/* Base Panel Sizing */
+.h-panel {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+/* Intro Panels (Architecture & Journey) */
+.h-panel--intro {
+  width: clamp(320px, 24vw, 420px);
+  padding-right: 1.5rem;
+}
+
+.h-panel--intro .kicker {
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.h-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 3.8vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.h-title .accent {
+  display: inline-block;
+}
+
+.h-desc {
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Elegant vertical divider line between Pillars and Journey (Desktop) */
+.h-panel--intro[style*="margin-left"] {
+  position: relative;
+}
+
+.h-panel--intro[style*="margin-left"]::before {
+  content: '';
+  position: absolute;
+  left: -5vw; /* Centered in the 10vw gap */
+  top: 10%;
+  width: 1px;
+  height: 80%;
+  background: linear-gradient(180deg, 
+                transparent 0%, 
+                rgba(212, 164, 74, 0.2) 30%, 
+                rgba(212, 164, 74, 0.2) 70%, 
+                transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Glass Card Panels */
+.h-panel--card {
+  width: clamp(340px, 26vw, 400px);
+}
+
+.glass-card {
+  position: relative;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 3rem 2.25rem 2.5rem;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+/* Top border glow transition */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 28px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 50%, rgba(212, 164, 74, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212, 164, 74, 0.35);
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6), 
+              0 15px 40px rgba(212, 164, 74, 0.08),
+              inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.glass-card:hover::before {
+  background: linear-gradient(135deg, var(--gold-bright), transparent 40%, var(--gold));
+  opacity: 1;
+}
+
+/* Distinct Numbering style */
+.card-num {
+  position: absolute;
+  top: 2rem;
+  right: 2.25rem;
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(212, 164, 74, 0.12);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.glass-card:hover .card-num {
+  -webkit-text-stroke: 1px rgba(245, 197, 99, 0.45);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.glass-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.glass-card p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+/* Feature bullets inside the glass card */
+.card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1.25rem;
+}
+
+.card-features li {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.glass-card:hover .card-features li {
+  color: var(--text);
+}
+
+.card-features li span {
+  color: var(--gold);
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.glass-card:hover .card-features li span {
+  transform: scale(1.2);
+}
+
+/* Journey Steps & Timeline */
+.h-panel--step {
+  width: clamp(260px, 20vw, 320px);
+  justify-content: flex-start;
+  padding-top: 5rem; /* Pushes content down below horizontal timeline */
+}
+
+/* Horizontal Timeline connector line */
+.h-panel--step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 2rem; /* Aligned with marker center */
+  left: 16px;
+  /* Width crosses the gaps to connect markers */
+  width: calc(100% + clamp(3rem, 5vw, 6rem) - 16px);
+  height: 2px;
+  background: linear-gradient(90deg, rgba(212, 164, 74, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+  z-index: 1;
+  transition: all 0.5s ease;
+}
+
+.h-panel--step:hover:not(:last-child)::before {
+  background: linear-gradient(90deg, var(--gold-bright) 0%, rgba(212, 164, 74, 0.15) 100%);
+}
+
+.step-marker {
+  position: absolute;
+  top: calc(2rem - 8px); /* Centered at y=2rem */
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.step-marker::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.4s ease;
+}
+
+.h-panel--step:hover .step-marker {
+  border-color: var(--gold-bright);
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(212, 164, 74, 0.4);
+}
+
+.h-panel--step:hover .step-marker::after {
+  background: var(--gold-bright);
+  transform: scale(1.1);
+}
+
+.step-phase {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  transition: color 0.4s ease;
+}
+
+.h-panel--step:hover .step-phase {
+  color: var(--gold);
+}
+
+.h-panel--step h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+  transition: transform 0.4s ease;
+}
+
+.h-panel--step p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* Glowing active state for final step (Execution) */
+.step-marker--glow {
+  border-color: var(--gold);
+  background: var(--gold);
+  box-shadow: 0 0 15px var(--gold-glow), 0 0 30px rgba(212, 164, 74, 0.2);
+  animation: pulse-glow 2.5s infinite ease-in-out;
+}
+
+.step-marker--glow::after {
+  background: var(--bg);
+  width: 4px;
+  height: 4px;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px var(--gold-glow), 0 0 25px rgba(212, 164, 74, 0.15);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 25px rgba(212, 164, 74, 0.4), 0 0 45px rgba(245, 197, 99, 0.3);
+  }
+}
+
+.step-phase--active {
+  color: var(--gold-bright);
+}
+
+/* Distinct hover card wrapper effect for last step to draw the eye to the goal */
+.h-panel--step:last-child {
+  padding: 5rem 1.75rem 1.75rem;
+  margin-left: -1.75rem;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.h-panel--step:last-child:hover {
+  background: linear-gradient(180deg, rgba(212, 164, 74, 0.02) 0%, transparent 100%);
+  border-color: rgba(212, 164, 74, 0.15);
+  box-shadow: inset 0 1px 0 rgba(212, 164, 74, 0.05);
+}
+
+
+/* ==========================================================================
+   RESPONSIVE — TABLET & MOBILE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  #sec-horizontal {
+    height: auto !important; /* Overrides GSAP pin injected height */
+  }
+
+  #sec-horizontal::before {
+    top: 5%;
+    left: -10%;
+    width: 80vw;
+    height: 80vw;
+  }
+
+  #sec-horizontal::after {
+    bottom: 5%;
+    right: -10%;
+    width: 90vw;
+    height: 90vw;
+  }
+
+  .horizontal__sticky {
+    position: relative;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .horizontal__track {
+    flex-direction: column;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    gap: 1.75rem;
+    padding: 5rem 1.5rem 6rem;
+  }
+
+  .h-panel {
+    width: 100% !important;
+  }
+
+  /* Intro Panel adjustments */
+  .h-panel--intro {
+    padding-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Override inline style margin-left for second intro panel on mobile,
+     and replace vertical divider line with horizontal divider */
+  .h-panel--intro[style*="margin-left"] {
+    margin-left: 0 !important;
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .h-panel--intro[style*="margin-left"]::before {
+    left: 0;
+    top: -2.5rem; /* Center of the gap */
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+                  transparent 0%, 
+                  rgba(212, 164, 74, 0.15) 30%, 
+                  rgba(212, 164, 74, 0.15) 70%, 
+                  transparent 100%);
+  }
+
+  .h-title {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    margin-bottom: 1rem;
+  }
+
+  .h-desc {
+    max-width: 100%;
+    font-size: 1rem;
+  }
+
+  /* Glass Card adjustments */
+  .glass-card {
+    height: auto;
+    min-height: 220px;
+    padding: 2.5rem 1.75rem 2rem;
+    border-radius: 20px;
+  }
+  
+  .glass-card::before {
+    border-radius: 20px;
+  }
+
+  .card-num {
+    top: 1.5rem;
+    right: 1.75rem;
+    font-size: 3.5rem;
+  }
+
+  .glass-card h3 {
+    font-size: 1.3rem;
+  }
+
+  /* Mobile Vertical Timeline */
+  .h-panel--step {
+    padding-top: 0;
+    padding-left: 2.75rem; /* Room for left timeline */
+    min-height: 90px;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Hide horizontal timeline connecting line */
+  .h-panel--step:not(:last-child)::before {
+    display: none;
+  }
+
+  /* Vertical timeline connector */
+  .h-panel--step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 8px; /* Centered with 16px marker */
+    top: 24px; /* Start below marker */
+    width: 2px;
+    height: calc(100% + 1.75rem - 24px); /* Span down to next step marker */
+    background: linear-gradient(180deg, rgba(212, 164, 74, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+    z-index: 1;
+    transition: all 0.4s ease;
+  }
+
+  .h-panel--step:hover:not(:last-child)::after {
+    background: linear-gradient(180deg, var(--gold) 0%, rgba(212, 164, 74, 0.1) 100%);
+  }
+
+  .step-marker {
+    left: 0;
+    top: 4px; /* Centered relative to first text line */
+  }
+
+  .step-phase {
+    margin-bottom: 0.4rem;
+  }
+
+  .h-panel--step h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .h-panel--step p {
+    font-size: 0.9rem;
+  }
+
+  /* Reset hover block for last step on mobile */
+  .h-panel--step:last-child {
+    padding: 0 0 0 2.75rem;
+    margin-left: 0;
+    background: none;
+    border: none;
+  }
+
+  .h-panel--step:last-child:hover {
+    background: none;
+    box-shadow: none;
+    transform: none;
+  }
+}

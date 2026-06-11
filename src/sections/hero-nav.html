@@ -1,0 +1,46 @@
+<!-- 
+  SYNERGY TRANSFORMATIONS — HERO & NAVIGATION HTML REVISION
+  
+  Copy and replace the Nav and Hero sections in your index.html with the code below.
+  Ensure that you import the accompanying styles ('/src/sections/hero-nav.css') 
+  and JS animations.
+-->
+
+<!-- 1. STICKY NAVIGATION BAR (Updated for smooth class-based styling) -->
+<nav id="nav" class="nav">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo" id="nav-logo">
+      <span class="nav__logo-diamond">◆</span>
+      <span>SYNERGY</span>
+    </a>
+    <a href="#sec-cta" class="nav__cta" id="nav-cta">Begin Now →</a>
+  </div>
+  <div class="nav__progress-track"><div class="nav__progress-bar" id="progress-bar"></div></div>
+</nav>
+
+<!-- 2. HERO SECTION (Updated with glow layer, subtitle, and luxury scroll cue) -->
+<section class="section hero" id="sec-hero">
+  <!-- Glowing dispersion light layer (animated in GSAP) -->
+  <div class="hero__glow"></div>
+  
+  <div class="container hero__container">
+    <p class="kicker" data-reveal>THE SYNERGY PROGRAM</p>
+    
+    <h1 class="hero__title">
+      <div class="split-text">Transformations</div>
+      <div class="split-text accent">That Matter</div>
+    </h1>
+    
+    <!-- Premium subtitle for instant 3-second comprehension -->
+    <p class="hero__subtitle" data-reveal>
+      A bespoke, results-driven coaching system replacing chaos with absolute structure, discipline, and execution.
+      <!-- Added reveal block for cinematic entrance animation -->
+    </p>
+    
+    <!-- Premium vertical scroll cue -->
+    <div class="scroll-cue" id="scroll-cue">
+      <span class="scroll-cue__text">Scroll to Enter</span>
+      <div class="scroll-cue__line"></div>
+    </div>
+  </div>
+</section>
