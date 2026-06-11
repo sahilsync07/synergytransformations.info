@@ -29,30 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   gsap.ticker.lagSmoothing(0);
 
-  // 2. Viewport Glow Effect
-  const glowOverlay = document.getElementById('viewport-glow');
-  if (glowOverlay) {
-    let scrollTimeout;
-    
-    // Using lenis.on('scroll') provides a highly optimized animation frame-synced event
-    lenis.on('scroll', (e) => {
-      // Calculate intensity based on scroll velocity (e.velocity provided by Lenis)
-      const velocity = Math.abs(e.velocity || 0);
-      
-      // Map velocity to opacity, with a base opacity of 0.4 when moving slowly, up to 1.0
-      const intensity = Math.min(0.4 + (velocity * 0.05), 1);
-      
-      glowOverlay.style.opacity = intensity.toString();
-      
-      clearTimeout(scrollTimeout);
-      
-      // Gentle fade back to idle state (opacity: 0) after scrolling stops
-      scrollTimeout = setTimeout(() => {
-        glowOverlay.style.opacity = '0';
-      }, 150);
-    });
-  }
-
   // 3. Animations
   initAnimations();
 

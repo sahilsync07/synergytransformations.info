@@ -51,4 +51,30 @@ export function initNavigation(lenis) {
       }
     });
   });
+
+  // ── Theme Toggle ───────────────────────────────────────────────────────
+  const themeToggle = document.getElementById('theme-toggle');
+  const htmlDoc = document.documentElement;
+  
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = htmlDoc.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      htmlDoc.setAttribute('data-theme', newTheme);
+      
+      // Animate icons based on theme
+      const sunIcon = themeToggle.querySelector('.theme-toggle__sun');
+      const moonIcon = themeToggle.querySelector('.theme-toggle__moon');
+      
+      if (sunIcon && moonIcon) {
+        if (newTheme === 'light') {
+          sunIcon.style.transform = 'rotate(90deg) scale(0)';
+          moonIcon.style.transform = 'rotate(0) scale(1)';
+        } else {
+          moonIcon.style.transform = 'rotate(-90deg) scale(0)';
+          sunIcon.style.transform = 'rotate(0) scale(1)';
+        }
+      }
+    });
+  }
 }
