@@ -55,17 +55,4 @@ export function initNavigation(lenis) {
     });
   }
 
-  // ---- CTA Click → Scroll to CTA Layer ----
-  const cta = document.getElementById('nav-cta');
-  if (cta) {
-    cta.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = document.getElementById('sec-cta');
-      if (target && lenis) {
-        lenis.scrollTo(target, { duration: 2 });
-      } else if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  }
 }
