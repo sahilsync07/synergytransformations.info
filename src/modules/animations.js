@@ -42,9 +42,9 @@ export function initAnimations() {
 
 
   // ── 2. Scroll-triggered reveals ────────────────────────────────────────
-  // All [data-reveal] elements outside the hero get revealed on scroll
+  // All [data-reveal] elements outside the hero and not process steps
   const revealElements = gsap.utils.toArray('[data-reveal]').filter(
-    el => !el.closest('.hero')
+    el => !el.closest('.hero') && !el.classList.contains('process__step')
   );
 
   revealElements.forEach((el) => {
@@ -58,8 +58,35 @@ export function initAnimations() {
       opacity: 1,
       y: 0,
       duration: 0.8,
-      ease: 'power3.out',
+      ease: 'power2.out',
     });
+  });
+
+  // ── 3. Dynamic Horizontal Stagger Animations ─────────────────────────────
+  const horizontalLists = ['.about__cards', '.pillars__grid', '.process__timeline', '.advantage__list'];
+  
+  horizontalLists.forEach(selector => {
+    const list = document.querySelector(selector);
+    if (list) {
+      const steps = list.querySelectorAll('.process__step');
+      
+      // Set initial state for horizontal entrance
+      gsap.set(steps, { opacity: 0, x: 40, y: 0, scale: 0.95 });
+      
+      gsap.to(steps, {
+        scrollTrigger: {
+          trigger: list,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+        opacity: 1,
+        x: 0,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'back.out(1.2)'
+      });
+    }
   });
 
 
