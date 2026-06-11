@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +11,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◆</text></svg>">
 </head>
 <body>
+  <div class="viewport-glow" id="viewport-glow"></div>
 
   <!-- ═══════════════════════════════════════════ NAV ═══════════════════════════════════════════ -->
   <nav class="nav" id="nav">
@@ -19,11 +20,34 @@
         <span class="nav__logo-mark">◆</span>
         <span class="nav__logo-text">SYNERGY</span>
       </a>
-      <a href="https://www.instagram.com/ryanvijray/" class="nav__cta" id="nav-cta" target="_blank" rel="noopener">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
-        <span>@ryanvijray</span>
-      </a>
+
+      <div class="nav__right">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" type="button">
+          <svg class="theme-toggle__icon theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <!-- Instagram CTA -->
+        <a href="https://www.instagram.com/ryanvijray/" class="nav__cta" id="nav-cta" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+          <span>@ryanvijray</span>
+        </a>
+      </div>
     </div>
+    <div class="nav__progress"><div class="nav__progress-bar" id="progress-bar"></div></div>
   </nav>
 
   <!-- ═══════════════════════════════════════════ MAIN ═══════════════════════════════════════════ -->
@@ -67,6 +91,17 @@
       </div>
     </section>
 
+    <!-- ──────────────────── PHILOSOPHY ──────────────────── -->
+    <section class="section philosophy" id="sec-philosophy">
+      <div class="container">
+        <blockquote class="philosophy__quote" data-reveal>
+          <span class="philosophy__line">Transformation is not motivation.</span>
+          <span class="philosophy__line philosophy__line--accent">It is structure, discipline,</span>
+          <span class="philosophy__line philosophy__line--accent">and follow-through.</span>
+        </blockquote>
+      </div>
+    </section>
+
     <!-- ──────────────────── ABOUT ──────────────────── -->
     <section class="section about" id="sec-about">
       <div class="container">
@@ -106,11 +141,50 @@
       </div>
     </section>
 
+    <!-- ──────────────────── PILLARS ──────────────────── -->
+    <section class="section pillars" id="sec-pillars">
+      <div class="container">
+        <div class="section__header">
+          <span class="mono-tag">003 // Pillars</span>
+          <h2 class="section__title" data-reveal>Your Growth Is<br/>Our Responsibility</h2>
+          <p class="section__desc" data-reveal>At Synergy, we believe true transformation requires attention to every dimension of human experience.</p>
+        </div>
+
+        <div class="pillars__grid">
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-card__icon">⚡</div>
+            <h3 class="pillar-card__title">Weight Loss / Gain</h3>
+            <p class="pillar-card__desc">Nutrition and fitness optimization tailored to your lifestyle and goals. Precision-calibrated results.</p>
+          </div>
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-card__icon">🌙</div>
+            <h3 class="pillar-card__title">Recovery Science</h3>
+            <p class="pillar-card__desc">Sleep quality and recovery protocols that maximize energy, vitality, and daily performance.</p>
+          </div>
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-card__icon">🧠</div>
+            <h3 class="pillar-card__title">Mental Mastery</h3>
+            <p class="pillar-card__desc">Focus, discipline, and clarity through meditation and mindfulness practices.</p>
+          </div>
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-card__icon">🔥</div>
+            <h3 class="pillar-card__title">Vital Energy</h3>
+            <p class="pillar-card__desc">Testosterone optimization and energy alignment for complete mind-body integration.</p>
+          </div>
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-card__icon">💎</div>
+            <h3 class="pillar-card__title">Emotional Resilience</h3>
+            <p class="pillar-card__desc">Navigating relationships and emotions with strength, authenticity, and clarity.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ──────────────────── PROCESS ──────────────────── -->
     <section class="section process" id="sec-process">
       <div class="container">
         <div class="section__header">
-          <span class="mono-tag">003 // Process</span>
+          <span class="mono-tag">004 // Process</span>
           <h2 class="section__title" data-reveal>The Protocol</h2>
         </div>
 
@@ -158,6 +232,54 @@
       </div>
     </section>
 
+    <!-- ──────────────────── ADVANTAGE ──────────────────── -->
+    <section class="section advantage" id="sec-advantage">
+      <div class="container">
+        <div class="section__header">
+          <span class="mono-tag">005 // Advantage</span>
+          <h2 class="section__title" data-reveal>The Synergy<br/>Advantage</h2>
+        </div>
+
+        <div class="advantage__list">
+          <div class="advantage__item" data-reveal>
+            <span class="advantage__num">1</span>
+            <div class="advantage__content">
+              <h3 class="advantage__title">24/7 Mentor Access</h3>
+              <p class="advantage__desc">Real-time guidance from your personal coach, anytime you need support. We're not here during business hours — we're here when life happens.</p>
+            </div>
+          </div>
+          <div class="advantage__item" data-reveal>
+            <span class="advantage__num">2</span>
+            <div class="advantage__content">
+              <h3 class="advantage__title">Holistic Lifestyle Blueprint</h3>
+              <p class="advantage__desc">Tailored plans covering body, mind, and daily structure. Every detail calibrated to amplify your potential and eliminate what holds you back.</p>
+            </div>
+          </div>
+          <div class="advantage__item" data-reveal>
+            <span class="advantage__num">3</span>
+            <div class="advantage__content">
+              <h3 class="advantage__title">Mind Body Calibration</h3>
+              <p class="advantage__desc">From meditation to vital energy — everything is integrated for peak vitality. We address the complete human experience, not isolated pieces.</p>
+            </div>
+          </div>
+          <div class="advantage__item" data-reveal>
+            <span class="advantage__num">4</span>
+            <div class="advantage__content">
+              <h3 class="advantage__title">Progress Tracking</h3>
+              <p class="advantage__desc">Weekly recalibrations keep you aligned with your best self. We track physical markers, emotional resilience, focus quality, and energy levels.</p>
+            </div>
+          </div>
+          <div class="advantage__item" data-reveal>
+            <span class="advantage__num">5</span>
+            <div class="advantage__content">
+              <h3 class="advantage__title">True Partnership</h3>
+              <p class="advantage__desc">Our clients become family. We celebrate victories and face struggles together. Your transformation is our shared responsibility.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ──────────────────── STATS BAR ──────────────────── -->
     <section class="section stats-bar" id="sec-stats">
       <div class="container">
@@ -189,9 +311,10 @@
     <section class="section cta" id="sec-cta">
       <div class="container">
         <div class="cta__inner" data-reveal>
-          <span class="mono-tag">004 // Initiate</span>
-          <h2 class="cta__title">Stop Architecting<br/>Excuses.</h2>
-          <p class="cta__sub">DM <strong>"TRANSFORM"</strong> on Instagram to book your free orientation call.</p>
+          <span class="mono-tag">006 // Initiate</span>
+          <h2 class="cta__title">Ready to<br/>Evolve?</h2>
+          <p class="cta__sub">Synergy is <strong>invitation only</strong> — we work with individuals who are ready for real change. This isn't for everyone. It's for those who understand that true transformation requires commitment, honesty, and the courage to evolve.</p>
+          <p class="cta__sub">DM <strong>"TRANSFORM"</strong> on Instagram to begin your application.</p>
           <div class="cta__actions">
             <a href="https://ig.me/m/ryanvijray" class="btn btn--primary btn--lg" target="_blank" rel="noopener">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
@@ -202,7 +325,7 @@
               View @ryanvijray
             </a>
           </div>
-          <p class="cta__note">Free orientation call · No commitment · Reply within 24h</p>
+          <p class="cta__note">Invitation only · Free orientation call · Reply within 24h</p>
         </div>
       </div>
     </section>
@@ -216,26 +339,27 @@
               <span class="nav__logo-mark">◆</span>
               <span>SYNERGY</span>
             </a>
-            <p class="footer__tagline">Transformation through structure, discipline, and follow-through. Engineered for permanent results.</p>
+            <p class="footer__tagline">Your Evolution Begins Here. Transformation through structure, discipline, and follow-through. Engineered for permanent results.</p>
           </div>
 
           <div class="footer__col">
             <h4 class="footer__col-title">Program</h4>
             <ul class="footer__links">
               <li><a href="#sec-about">About</a></li>
+              <li><a href="#sec-pillars">Pillars</a></li>
               <li><a href="#sec-process">Process</a></li>
-              <li><a href="#sec-stats">Results</a></li>
-              <li><a href="#sec-cta">Get Started</a></li>
+              <li><a href="#sec-advantage">Advantage</a></li>
+              <li><a href="#sec-cta">Apply</a></li>
             </ul>
           </div>
 
           <div class="footer__col">
             <h4 class="footer__col-title">Framework</h4>
             <ul class="footer__links">
-              <li><a href="#">Nutrition Protocol</a></li>
-              <li><a href="#">Training System</a></li>
-              <li><a href="#">Habit Architecture</a></li>
-              <li><a href="#">Recovery Blueprint</a></li>
+              <li><a href="#sec-pillars">Nutrition Protocol</a></li>
+              <li><a href="#sec-pillars">Training System</a></li>
+              <li><a href="#sec-pillars">Recovery Science</a></li>
+              <li><a href="#sec-pillars">Mental Mastery</a></li>
             </ul>
           </div>
 
@@ -251,6 +375,12 @@
               <li>
                 <a href="https://ig.me/m/ryanvijray" target="_blank" rel="noopener">
                   Direct Message
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:Ryanvijrayofficial@gmail.com">
+                  Email
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </a>
               </li>
