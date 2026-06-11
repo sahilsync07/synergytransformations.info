@@ -61,8 +61,7 @@ export function initAnimations() {
       trigger: '#sec-video',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: true,
-      pin: '.video-reveal__sticky'
+      scrub: true
     }
   });
 
