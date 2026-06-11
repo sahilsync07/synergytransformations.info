@@ -1,48 +1,27 @@
-/* ========================================================
-   Navigation — Sticky nav, progress bar, scroll-to
-   ======================================================== */
-import { gsap } from 'gsap';
+/* ════════════════════════════════════════════════════════════════════════════
+   Navigation — Scrolled state, logo scroll-to-top, smooth anchor links
+   ════════════════════════════════════════════════════════════════════════════ */
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function initNavigation(lenis) {
   const nav = document.getElementById('nav');
-  const progressBar = document.getElementById('progress-bar');
 
-  // ---- Sticky Nav Background on Scroll ----
+  // ── Scrolled nav state (class toggle via ScrollTrigger) ────────────────
   if (nav) {
     ScrollTrigger.create({
-      start: 'top -80',
+      start: 'top -60',
       end: 99999,
       onUpdate: (self) => {
-        if (self.direction === 1 && self.scroll() > 80) {
-          nav.style.background = 'hsla(230,20%,12%,0.85)';
-          nav.style.backdropFilter = 'blur(20px)';
-          nav.style.borderBottom = '1px solid hsla(40,20%,90%,0.06)';
-        } else if (self.scroll() <= 80) {
-          nav.style.background = 'transparent';
-          nav.style.backdropFilter = 'none';
-          nav.style.borderBottom = 'none';
+        if (self.scroll() > 60) {
+          nav.classList.add('nav--scrolled');
+        } else {
+          nav.classList.remove('nav--scrolled');
         }
       },
     });
   }
 
-  // ---- Global Progress Bar ----
-  if (progressBar) {
-    ScrollTrigger.create({
-      trigger: document.body,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 0.1,
-      onUpdate: (self) => {
-        progressBar.style.width = `${self.progress * 100}%`;
-      },
-    });
-  }
-
-  // ---- Logo Click → Scroll to Top ----
+  // ── Logo → scroll to top ──────────────────────────────────────────────
   const logo = document.getElementById('nav-logo');
   if (logo) {
     logo.addEventListener('click', (e) => {
@@ -55,4 +34,21 @@ export function initNavigation(lenis) {
     });
   }
 
+  // ── Smooth scroll for all internal anchor links ────────────────────────
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#') return; // logo handled above
+      
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        if (lenis) {
+          lenis.scrollTo(target, { duration: 1.5, offset: -20 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
 }

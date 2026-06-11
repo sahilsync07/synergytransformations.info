@@ -1,133 +1,136 @@
-/* ========================================================
-   CINEMATIC DOM ANIMATIONS (Apple-Style Scrollytelling)
-   ======================================================== */
+/* ════════════════════════════════════════════════════════════════════════════
+   Animations — Scroll-triggered reveals for the Minimal Agency System
+   ════════════════════════════════════════════════════════════════════════════ */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SplitType from 'split-type';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function initAnimations() {
-  
-  // 1. KINETIC TYPOGRAPHY (Hero)
-  const heroText = new SplitType('.split-text', { types: 'chars' });
-  const heroTl = gsap.timeline({ delay: 0.2 });
 
-  heroTl.fromTo(
-    '.kicker[data-reveal]',
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
-  );
+  // ── 1. Hero entrance timeline ──────────────────────────────────────────
+  const heroTl = gsap.timeline({ delay: 0.3 });
 
-  heroTl.fromTo(
-    heroText.chars,
-    { opacity: 0, yPercent: 100, rotateX: -90 },
-    {
-      opacity: 1,
-      yPercent: 0,
-      rotateX: 0,
-      duration: 1.2,
-      stagger: 0.04,
-      ease: 'back.out(1.5)',
-      transformOrigin: '50% 100%'
-    },
-    "-=0.6"
-  );
-  
-  heroTl.fromTo(
-    '#scroll-cue',
-    { opacity: 0, y: 10 },
-    { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
-    "-=0.4"
-  );
-
-  // 2. HERO FADE & SCALE ON SCROLL
-  gsap.to('.hero__container', {
-    scrollTrigger: {
-      trigger: '#sec-hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true
-    },
-    opacity: 0,
-    scale: 0.9,
-    y: 100
+  heroTl.to('.hero__meta', {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out'
   });
 
-  // 3. CINEMATIC VIDEO REVEAL
-  // As user scrolls, the text parts and the video expands to full screen
-  const videoTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '#sec-video',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true
-    }
-  });
+  heroTl.to('.hero__scope', {
+    opacity: 1, y: 0, duration: 0.6, ease: 'power3.out'
+  }, '-=0.5');
 
-  // Part the text outwards (The goes up, Reality goes down)
-  videoTl.to('#vr-word-top', { y: -150, opacity: 0, duration: 0.5, ease: 'power2.inOut' }, 0);
-  videoTl.to('#vr-word-bottom', { y: 150, opacity: 0, duration: 0.5, ease: 'power2.inOut' }, 0);
+  heroTl.to('.hero__title[data-reveal]', {
+    opacity: 1, y: 0, duration: 1, ease: 'power3.out'
+  }, '-=0.4');
 
-  // Expand the video window AFTER text starts parting
-  videoTl.to('#video-window', {
-    clipPath: 'inset(0% 0% 0% 0% round 0px)',
-    filter: 'grayscale(0%) contrast(1) brightness(1)',
-    scale: 1,
-    duration: 1,
-    ease: 'power2.inOut'
-  }, 0.2);
+  heroTl.to('.hero__sub[data-reveal]', {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out'
+  }, '-=0.5');
 
-  // 4. STACKING CARDS (Philosophy & CTA)
-  // These sections slide up and cover the previous content.
-  const stackCards = gsap.utils.toArray('.stack-card');
-  stackCards.forEach((card, i) => {
-    // Reveal animation for content inside the card
-    const quoteLines = card.querySelectorAll('.mq-line');
-    if (quoteLines.length > 0) {
-      const qSplit = new SplitType(quoteLines, { types: 'words' });
-      gsap.fromTo(qSplit.words,
-        { opacity: 0, y: 50 },
-        {
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 70%',
-            end: 'center center',
-            scrub: 1
-          },
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          ease: 'power2.out'
-        }
-      );
-    }
-  });
+  heroTl.to('.hero__actions[data-reveal]', {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out'
+  }, '-=0.4');
 
-  // 5. HORIZONTAL SCROLL (Pillars & Journey)
-  const hTrack = document.getElementById('h-track');
-  if (hTrack && window.innerWidth > 768) {
-    const panels = gsap.utils.toArray('.h-panel');
-    // Calculate total distance to scroll horizontally
-    // (Total width of track - window width)
-    
-    // We use a functional end value so it recalculates on resize
-    function getScrollAmount() {
-      let trackWidth = hTrack.scrollWidth;
-      return -(trackWidth - window.innerWidth);
-    }
+  heroTl.to('.hero__scroll-indicator', {
+    opacity: 1, duration: 1, ease: 'power2.out'
+  }, '-=0.3');
 
-    gsap.to(panels, {
-      x: getScrollAmount,
-      ease: 'none',
+  // Set initial states for hero elements (they have data-reveal in CSS)
+  gsap.set('.hero__meta', { opacity: 0, y: 16 });
+  gsap.set('.hero__scope', { opacity: 0, y: 16 });
+  gsap.set('.hero__scroll-indicator', { opacity: 0 });
+
+
+  // ── 2. Scroll-triggered reveals ────────────────────────────────────────
+  // All [data-reveal] elements outside the hero get revealed on scroll
+  const revealElements = gsap.utils.toArray('[data-reveal]').filter(
+    el => !el.closest('.hero')
+  );
+
+  revealElements.forEach((el) => {
+    gsap.to(el, {
       scrollTrigger: {
-        trigger: '#sec-horizontal',
-        start: 'top top',
-        end: () => `+=${getScrollAmount() * -1}`,
-        scrub: 1,
-        pin: true,
-        invalidateOnRefresh: true
-      }
+        trigger: el,
+        start: 'top 85%',
+        end: 'top 60%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out',
     });
-  }
+  });
+
+
+  // ── 3. Cards stagger ───────────────────────────────────────────────────
+  const cardGroups = ['.about__cards', '.process__timeline'];
+
+  cardGroups.forEach((groupSelector) => {
+    const group = document.querySelector(groupSelector);
+    if (!group) return;
+
+    const cards = group.querySelectorAll('[data-reveal]');
+    if (cards.length === 0) return;
+
+    gsap.to(cards, {
+      scrollTrigger: {
+        trigger: group,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: 'power3.out',
+    });
+  });
+
+
+  // ── 4. Stats counter animation ─────────────────────────────────────────
+  const statNums = gsap.utils.toArray('.stats-bar__num');
+  statNums.forEach((el) => {
+    const text = el.textContent.trim();
+    // Extract number and suffix (e.g., "500+" → 500, "+")
+    const match = text.match(/^(\d+)(.*)$/);
+    if (!match) return;
+
+    const endVal = parseInt(match[1], 10);
+    const suffix = match[2];
+    const obj = { val: 0 };
+
+    gsap.to(obj, {
+      val: endVal,
+      duration: 1.5,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      onUpdate: () => {
+        el.textContent = Math.round(obj.val) + suffix;
+      },
+    });
+  });
+
+
+  // ── 5. Section border fade-in ──────────────────────────────────────────
+  const sections = gsap.utils.toArray('.section:not(.hero)');
+  sections.forEach((section) => {
+    gsap.fromTo(section, 
+      { borderTopColor: 'transparent' },
+      {
+        borderTopColor: 'var(--border)',
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 90%',
+          toggleActions: 'play none none none',
+        },
+      }
+    );
+  });
 }
