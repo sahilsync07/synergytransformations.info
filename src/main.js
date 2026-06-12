@@ -58,8 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (typewriterText && typewriterSubContainer && typewriterSubText && typewriterSubCursor) {
     const sequence = [
-      { text: 'not motivation.', color: '#ff4444' },
-      { text: 'structure, discipline, and follow-through.', color: '#44ff44' }
+      { text: 'structure.', color: '#44ff44' },
+      { text: 'discipline.', color: '#44ff44' },
+      { text: 'follow-through.', color: '#44ff44' }
     ];
     const subTextStr = "We tackle every issue or roadblock you may face during this change and provide instant solutions.";
     
@@ -120,5 +121,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     setTimeout(type, 1000); // Initial delay
+  }
+
+  // 6. Begin Transformation Button Logic
+  const btnBegin = document.getElementById('btn-begin');
+  if (btnBegin) {
+    btnBegin.style.transition = 'opacity 0.3s ease';
+    
+    btnBegin.addEventListener('click', (e) => {
+      e.preventDefault();
+      lenis.scrollTo('#sec-philosophy');
+      btnBegin.style.opacity = '0';
+      setTimeout(() => btnBegin.style.display = 'none', 300);
+    });
+
+    let hasScrolledHero = false;
+    lenis.on('scroll', (e) => {
+      if (!hasScrolledHero && window.scrollY > 50) {
+        hasScrolledHero = true;
+        btnBegin.style.opacity = '0';
+        setTimeout(() => btnBegin.style.display = 'none', 300);
+      }
+    });
   }
 });
