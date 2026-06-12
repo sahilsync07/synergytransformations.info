@@ -59,9 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typewriterText && typewriterSubContainer && typewriterSubText && typewriterSubCursor) {
     const sequence = [
       { text: 'not motivation.', color: '#ff4444' },
-      { text: 'a structure.', color: '#44ff44' },
-      { text: 'discipline.', color: '#44ff44' },
-      { text: 'follow-through.', color: '#44ff44' }
+      { text: 'structure, discipline, and follow-through.', color: '#44ff44' }
     ];
     const subTextStr = "We tackle every issue or roadblock you may face during this change and provide instant solutions.";
     
