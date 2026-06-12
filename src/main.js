@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function type() {
-      if (isFinishedMain) return;
       const currentObj = sequence[seqIdx];
       const currentWord = currentObj.text;
       
@@ -97,20 +96,25 @@ document.addEventListener('DOMContentLoaded', () => {
       let typeSpeed = isDeleting ? 40 : 80;
       
       if (!isDeleting && charIdx === currentWord.length) {
-        if (seqIdx === sequence.length - 1) {
+        // End of word reached
+        if (seqIdx === sequence.length - 1 && !isFinishedMain) {
+          // Trigger subtitle typing once on the first full cycle
           isFinishedMain = true;
           setTimeout(() => {
             typewriterSubContainer.style.opacity = '1';
             typewriterSubCursor.style.opacity = '1';
             setTimeout(typeSub, 300);
           }, 500);
-          return;
         }
         typeSpeed = 1500; // Pause at the end of word before deleting
         isDeleting = true;
       } else if (isDeleting && charIdx === 0) {
+        // Finished deleting, move to next word
         isDeleting = false;
         seqIdx++;
+        if (seqIdx >= sequence.length) {
+          seqIdx = 0; // Loop indefinitely
+        }
         typeSpeed = 400; // Pause before typing next word
       }
       
