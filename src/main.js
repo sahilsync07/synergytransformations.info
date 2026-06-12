@@ -54,13 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
   let isSnapping = false;
   
   function handleSnapScroll(deltaY, e) {
+    if (isSnapping) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      return;
+    }
+
     const targetSec = document.getElementById('sec-about');
     if (!targetSec) return;
     
     const targetTop = targetSec.offsetTop;
     
     // Snap from Hero down to About
-    if (window.scrollY < 50 && deltaY > 0 && !isSnapping) {
+    if (window.scrollY < 50 && deltaY > 0) {
       if (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -70,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => { isSnapping = false; }, 1500);
     } 
     // Snap from About up to Hero
-    else if (window.scrollY > 50 && window.scrollY <= targetTop + 50 && deltaY < 0 && !isSnapping) {
+    else if (window.scrollY > 50 && window.scrollY <= targetTop + 50 && deltaY < 0) {
       if (e) {
         e.preventDefault();
         e.stopPropagation();
