@@ -52,23 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 5. Typewriter Effect
   const typewriterText = document.getElementById('typewriter-text');
-  const typewriterSubContainer = document.getElementById('typewriter-sub-container');
-  const typewriterSubText = document.getElementById('typewriter-sub-text');
-  const typewriterSubCursor = document.getElementById('typewriter-sub-cursor');
   
-  if (typewriterText && typewriterSubContainer && typewriterSubText && typewriterSubCursor) {
+  if (typewriterText) {
     const sequence = [
       { text: 'not motivation.', color: '#ff4444' },
       { text: 'structure,', color: '#44ff44' },
       { text: 'discipline,', color: '#44ff44' },
-      { text: 'and follow-through.', color: '#44ff44' }
+      { text: 'and follow-through. We tackle every issue or roadblock you may face during this change and provide instant solutions.', color: '#44ff44' }
     ];
-    const subTextStr = "We tackle every issue or roadblock you may face during this change and provide instant solutions.";
     
     let seqIdx = 0;
     let charIdx = 0;
     let isDeleting = false;
-    let subCharIdx = 0;
 
     // 6. Begin Transformation Button Logic
     const btnBegin = document.getElementById('btn-begin');
@@ -92,20 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    function typeSub() {
-      if (subCharIdx < subTextStr.length) {
-        typewriterSubText.textContent += subTextStr.charAt(subCharIdx);
-        subCharIdx++;
-        setTimeout(typeSub, 30);
-      } else {
-        // Subtitle finished typing, reveal button
-        if (btnBegin) {
-          btnBegin.style.pointerEvents = 'auto';
-          btnBegin.style.opacity = '1';
-        }
-      }
-    }
-
     function type() {
       const currentObj = sequence[seqIdx];
       const currentWord = currentObj.text;
@@ -121,16 +102,19 @@ document.addEventListener('DOMContentLoaded', () => {
       typewriterText.textContent = currentWord.substring(0, charIdx);
       
       let typeSpeed = isDeleting ? 40 : 80;
+      if (!isDeleting && seqIdx === sequence.length - 1) {
+        // Type faster for the long sentence so it doesn't take forever
+        typeSpeed = 40;
+      }
       
       if (!isDeleting && charIdx === currentWord.length) {
         // End of word reached
         if (seqIdx === sequence.length - 1) {
-          // Last word of the main text typed, stop and trigger subtitle
-          setTimeout(() => {
-            typewriterSubContainer.style.opacity = '1';
-            typewriterSubCursor.style.opacity = '1';
-            setTimeout(typeSub, 300);
-          }, 500);
+          // Last word of the main text typed, stop and show button
+          if (btnBegin) {
+            btnBegin.style.pointerEvents = 'auto';
+            btnBegin.style.opacity = '1';
+          }
           return; // Stop the main loop here!
         }
         typeSpeed = 1000; // Pause at the end of word before deleting
