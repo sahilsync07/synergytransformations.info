@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig({
   base: '/synergytransformations.info/',
@@ -6,6 +7,12 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        alpha: resolve(__dirname, 'alpha/index.html'),
+      },
+    },
   },
   server: {
     port: 3000,
