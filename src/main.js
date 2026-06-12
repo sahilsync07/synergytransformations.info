@@ -50,6 +50,49 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. Navigation
   initNavigation(lenis);
 
+  // 4.5. Hero Snap Scrolling
+  let isSnapping = false;
+  
+  function handleSnapScroll(deltaY, e) {
+    const philosophySec = document.getElementById('sec-philosophy');
+    if (!philosophySec) return;
+    
+    const philosophyTop = philosophySec.offsetTop;
+    
+    // Snap from Hero down to Philosophy
+    if (window.scrollY < 50 && deltaY > 0 && !isSnapping) {
+      if (e) e.preventDefault();
+      isSnapping = true;
+      lenis.scrollTo('#sec-philosophy', { duration: 1.5 });
+      setTimeout(() => { isSnapping = false; }, 1500);
+    } 
+    // Snap from Philosophy up to Hero
+    else if (window.scrollY > 50 && window.scrollY <= philosophyTop + 50 && deltaY < 0 && !isSnapping) {
+      if (e) e.preventDefault();
+      isSnapping = true;
+      lenis.scrollTo('#sec-hero', { duration: 1.5 });
+      setTimeout(() => { isSnapping = false; }, 1500);
+    }
+  }
+
+  window.addEventListener('wheel', (e) => {
+    handleSnapScroll(e.deltaY, e);
+  }, { passive: false });
+
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    const touchEndY = e.changedTouches[0].screenY;
+    const deltaY = touchStartY - touchEndY;
+    // Only intercept if it's a significant swipe
+    if (Math.abs(deltaY) > 30) {
+      handleSnapScroll(deltaY, e);
+    }
+  }, { passive: false });
+
   // 5. Typewriter Effect
   const typewriterText = document.getElementById('typewriter-text');
   const typewriterSubContainer = document.getElementById('typewriter-sub-container');
@@ -98,13 +141,17 @@ document.addEventListener('DOMContentLoaded', () => {
         subCharIdx++;
         setTimeout(typeSub, 30);
       } else {
-        // Subtitle finished typing, reveal button
+        // Subtitle finished typing, reveal button and scroll indicator
         if (typewriterSubCursor) {
           typewriterSubCursor.style.display = 'none';
         }
         if (btnBegin) {
           btnBegin.style.pointerEvents = 'auto';
           btnBegin.style.opacity = '1';
+        }
+        const scrollIndicator = document.getElementById('hero-scroll-indicator');
+        if (scrollIndicator) {
+          scrollIndicator.style.opacity = '1';
         }
       }
     }
