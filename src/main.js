@@ -211,26 +211,25 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (!isDeleting && charIdx === currentWord.length) {
         // End of word reached
-        if (seqIdx === sequence.length - 1) {
-          // Last word of the main text typed, stop and trigger subtitle
-          const mainCursor = document.querySelector('.typewriter-cursor');
-          if (mainCursor) {
-            mainCursor.style.display = 'none';
-          }
-          
+        typeSpeed = 1500; // Pause at the end of word before deleting
+        isDeleting = true;
+
+        // Trigger subtitle once when the first word finishes
+        if (seqIdx === 0 && !window.subtitleTriggered) {
+          window.subtitleTriggered = true;
           setTimeout(() => {
             typewriterSubContainer.style.opacity = '1';
             typewriterSubCursor.style.opacity = '1';
             setTimeout(typeSub, 300);
           }, 500);
-          return; // Stop the main loop here!
         }
-        typeSpeed = 1000; // Pause at the end of word before deleting
-        isDeleting = true;
       } else if (isDeleting && charIdx === 0) {
         // Finished deleting, move to next word
         isDeleting = false;
         seqIdx++;
+        if (seqIdx >= sequence.length) {
+          seqIdx = 0; // Loop back to the beginning
+        }
         typeSpeed = 400; // Pause before typing next word
       }
       
