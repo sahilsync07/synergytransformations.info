@@ -58,23 +58,51 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (typewriterText && typewriterSubContainer && typewriterSubText && typewriterSubCursor) {
     const sequence = [
-      { text: 'structure.', color: '#44ff44' },
-      { text: 'discipline.', color: '#44ff44' },
-      { text: 'follow-through.', color: '#44ff44' }
+      { text: 'not motivation.', color: '#ff4444' },
+      { text: 'structure,', color: '#44ff44' },
+      { text: 'discipline,', color: '#44ff44' },
+      { text: 'and follow-through.', color: '#44ff44' }
     ];
     const subTextStr = "We tackle every issue or roadblock you may face during this change and provide instant solutions.";
     
     let seqIdx = 0;
     let charIdx = 0;
     let isDeleting = false;
-    let isFinishedMain = false;
     let subCharIdx = 0;
+
+    // 6. Begin Transformation Button Logic
+    const btnBegin = document.getElementById('btn-begin');
+    if (btnBegin) {
+      btnBegin.style.transition = 'opacity 0.3s ease';
+      
+      btnBegin.addEventListener('click', (e) => {
+        e.preventDefault();
+        lenis.scrollTo('#sec-philosophy');
+        btnBegin.style.opacity = '0';
+        setTimeout(() => btnBegin.style.display = 'none', 300);
+      });
+
+      let hasScrolledHero = false;
+      lenis.on('scroll', (e) => {
+        if (!hasScrolledHero && window.scrollY > 50) {
+          hasScrolledHero = true;
+          btnBegin.style.opacity = '0';
+          setTimeout(() => btnBegin.style.display = 'none', 300);
+        }
+      });
+    }
 
     function typeSub() {
       if (subCharIdx < subTextStr.length) {
         typewriterSubText.textContent += subTextStr.charAt(subCharIdx);
         subCharIdx++;
         setTimeout(typeSub, 30);
+      } else {
+        // Subtitle finished typing, reveal button
+        if (btnBegin) {
+          btnBegin.style.pointerEvents = 'auto';
+          btnBegin.style.opacity = '1';
+        }
       }
     }
 
@@ -96,24 +124,21 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (!isDeleting && charIdx === currentWord.length) {
         // End of word reached
-        if (seqIdx === sequence.length - 1 && !isFinishedMain) {
-          // Trigger subtitle typing once on the first full cycle
-          isFinishedMain = true;
+        if (seqIdx === sequence.length - 1) {
+          // Last word of the main text typed, stop and trigger subtitle
           setTimeout(() => {
             typewriterSubContainer.style.opacity = '1';
             typewriterSubCursor.style.opacity = '1';
             setTimeout(typeSub, 300);
           }, 500);
+          return; // Stop the main loop here!
         }
-        typeSpeed = 1500; // Pause at the end of word before deleting
+        typeSpeed = 1000; // Pause at the end of word before deleting
         isDeleting = true;
       } else if (isDeleting && charIdx === 0) {
         // Finished deleting, move to next word
         isDeleting = false;
         seqIdx++;
-        if (seqIdx >= sequence.length) {
-          seqIdx = 0; // Loop indefinitely
-        }
         typeSpeed = 400; // Pause before typing next word
       }
       
@@ -121,27 +146,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     setTimeout(type, 1000); // Initial delay
-  }
-
-  // 6. Begin Transformation Button Logic
-  const btnBegin = document.getElementById('btn-begin');
-  if (btnBegin) {
-    btnBegin.style.transition = 'opacity 0.3s ease';
-    
-    btnBegin.addEventListener('click', (e) => {
-      e.preventDefault();
-      lenis.scrollTo('#sec-philosophy');
-      btnBegin.style.opacity = '0';
-      setTimeout(() => btnBegin.style.display = 'none', 300);
-    });
-
-    let hasScrolledHero = false;
-    lenis.on('scroll', (e) => {
-      if (!hasScrolledHero && window.scrollY > 50) {
-        hasScrolledHero = true;
-        btnBegin.style.opacity = '0';
-        setTimeout(() => btnBegin.style.display = 'none', 300);
-      }
-    });
   }
 });
