@@ -48,7 +48,7 @@
 
   /* Layout */
   --nav-height: 64px;
-  --max-width:  1200px;
+  --max-width:  100%;
   --z-nav:      100;
 }
 
