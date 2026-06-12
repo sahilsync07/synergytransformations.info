@@ -29,18 +29,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   gsap.ticker.lagSmoothing(0);
 
-  // 2. Viewport Glow Effect
+  // 2. Viewport Glow Effect & Custom Scrollbar
   const glowOverlay = document.getElementById('viewport-glow');
-  if (glowOverlay) {
+  const customScrollbar = document.getElementById('custom-scrollbar');
+  
+  if (glowOverlay || customScrollbar) {
     let scrollTimeout;
     lenis.on('scroll', (e) => {
       const velocity = Math.abs(e.velocity || 0);
-      const intensity = Math.min(0.2 + (velocity * 0.025), 0.5);
-      glowOverlay.style.opacity = intensity.toString();
+      
+      // Glow
+      if (glowOverlay) {
+        const intensity = Math.min(0.2 + (velocity * 0.025), 0.5);
+        glowOverlay.style.opacity = intensity.toString();
+      }
+      
+      // Custom Scrollbar
+      if (customScrollbar) {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.body.scrollHeight;
+        
+        const scrollPercentage = scrollY / (documentHeight - windowHeight);
+        const scrollbarHeight = Math.max(windowHeight * (windowHeight / documentHeight), 40);
+        const scrollbarY = scrollPercentage * (windowHeight - scrollbarHeight);
+        
+        customScrollbar.style.height = `${scrollbarHeight}px`;
+        customScrollbar.style.transform = `translateY(${scrollbarY}px)`;
+        customScrollbar.style.opacity = '1';
+      }
+
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
-        glowOverlay.style.opacity = '0';
-      }, 150);
+        if (glowOverlay) glowOverlay.style.opacity = '0';
+        if (customScrollbar) customScrollbar.style.opacity = '0';
+      }, 800);
     });
   }
 

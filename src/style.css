@@ -64,6 +64,28 @@ html {
   background: var(--bg);
   overflow-x: hidden;
   scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* Hide native scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom super-imposed scrollbar */
+.custom-scrollbar {
+  position: fixed;
+  top: 0;
+  right: 2px;
+  width: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  transform-origin: top;
 }
 
 html.lenis, html.lenis body { height: auto; }
