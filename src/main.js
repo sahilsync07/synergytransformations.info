@@ -54,21 +54,27 @@ document.addEventListener('DOMContentLoaded', () => {
   let isSnapping = false;
   
   function handleSnapScroll(deltaY, e) {
-    const philosophySec = document.getElementById('sec-philosophy');
-    if (!philosophySec) return;
+    const targetSec = document.getElementById('sec-about');
+    if (!targetSec) return;
     
-    const philosophyTop = philosophySec.offsetTop;
+    const targetTop = targetSec.offsetTop;
     
-    // Snap from Hero down to Philosophy
+    // Snap from Hero down to About
     if (window.scrollY < 50 && deltaY > 0 && !isSnapping) {
-      if (e) e.preventDefault();
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       isSnapping = true;
-      lenis.scrollTo('#sec-philosophy', { duration: 1.5 });
+      lenis.scrollTo('#sec-about', { duration: 1.5 });
       setTimeout(() => { isSnapping = false; }, 1500);
     } 
-    // Snap from Philosophy up to Hero
-    else if (window.scrollY > 50 && window.scrollY <= philosophyTop + 50 && deltaY < 0 && !isSnapping) {
-      if (e) e.preventDefault();
+    // Snap from About up to Hero
+    else if (window.scrollY > 50 && window.scrollY <= targetTop + 50 && deltaY < 0 && !isSnapping) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       isSnapping = true;
       lenis.scrollTo('#sec-hero', { duration: 1.5 });
       setTimeout(() => { isSnapping = false; }, 1500);
@@ -77,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('wheel', (e) => {
     handleSnapScroll(e.deltaY, e);
-  }, { passive: false });
+  }, { passive: false, capture: true });
 
   let touchStartY = 0;
   window.addEventListener('touchstart', (e) => {
@@ -91,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (Math.abs(deltaY) > 30) {
       handleSnapScroll(deltaY, e);
     }
-  }, { passive: false });
+  }, { passive: false, capture: true });
 
   // 5. Typewriter Effect
   const typewriterText = document.getElementById('typewriter-text');
@@ -120,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       btnBegin.addEventListener('click', (e) => {
         e.preventDefault();
-        lenis.scrollTo('#sec-philosophy');
+        lenis.scrollTo('#sec-about');
         btnBegin.style.opacity = '0';
         setTimeout(() => btnBegin.style.display = 'none', 300);
       });
