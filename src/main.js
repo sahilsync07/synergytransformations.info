@@ -49,4 +49,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Navigation
   initNavigation(lenis);
+
+  // 5. Typewriter Effect
+  const typewriterText = document.getElementById('typewriter-text');
+  const typewriterSub = document.getElementById('typewriter-sub');
+  if (typewriterText && typewriterSub) {
+    const sequence = [
+      { text: 'not motivation.', color: '#ff4444' },
+      { text: 'a structure.', color: '#44ff44' },
+      { text: 'discipline.', color: '#44ff44' },
+      { text: 'follow-through.', color: '#44ff44' }
+    ];
+    let seqIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+    let isFinished = false;
+
+    function type() {
+      if (isFinished) return;
+      const currentObj = sequence[seqIdx];
+      const currentWord = currentObj.text;
+      
+      typewriterText.style.color = currentObj.color;
+      
+      if (isDeleting) {
+        charIdx--;
+      } else {
+        charIdx++;
+      }
+      
+      typewriterText.textContent = currentWord.substring(0, charIdx);
+      
+      let typeSpeed = isDeleting ? 40 : 80;
+      
+      if (!isDeleting && charIdx === currentWord.length) {
+        if (seqIdx === sequence.length - 1) {
+          isFinished = true;
+          setTimeout(() => {
+            typewriterSub.style.opacity = '1';
+          }, 500);
+          return;
+        }
+        typeSpeed = 1500; // Pause at the end of word before deleting
+        isDeleting = true;
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        seqIdx++;
+        typeSpeed = 400; // Pause before typing next word
+      }
+      
+      setTimeout(type, typeSpeed);
+    }
+    
+    setTimeout(type, 1000); // Initial delay
+  }
 });
