@@ -428,19 +428,18 @@ img, svg, iframe { display: block; max-width: 100%; }
 .scroll-line::after {
   content: '';
   position: absolute;
-  top: 0;
+  top: -100%;
   left: 0;
   width: 100%;
-  height: 50%;
+  height: 100%;
   background: var(--text-primary);
   animation: scroll-pulse 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
 @keyframes scroll-pulse {
-  0% { transform: translateY(-100%); opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateY(200%); opacity: 0; }
+  0%   { top: -100%; }
+  50%  { top: 0; }
+  100% { top: 100%; }
 }
 
 

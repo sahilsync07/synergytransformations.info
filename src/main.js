@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { text: 'not Motivation.', color: '#ff4444' },
       { text: 'a Structure.', color: '#44ff44' },
       { text: 'Discipline.', color: '#44ff44' },
-      { text: 'follow through.', color: '#44ff44' }
+      { text: 'a follow through.', color: '#44ff44' }
     ];
     const subTextStr = "We tackle every issue or roadblock you may face during this change and provide instant solutions.";
     
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. Begin Transformation Button Logic
     const btnBegin = document.getElementById('btn-begin');
     if (btnBegin) {
-      btnBegin.style.transition = 'opacity 0.3s ease';
+      btnBegin.style.transition = 'opacity 2s ease';
       
       btnBegin.addEventListener('click', (e) => {
         e.preventDefault();
