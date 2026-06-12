@@ -99,6 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(typeSub, 30);
       } else {
         // Subtitle finished typing, reveal button
+        if (typewriterSubCursor) {
+          typewriterSubCursor.style.display = 'none';
+        }
         if (btnBegin) {
           btnBegin.style.pointerEvents = 'auto';
           btnBegin.style.opacity = '1';
@@ -126,6 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // End of word reached
         if (seqIdx === sequence.length - 1) {
           // Last word of the main text typed, stop and trigger subtitle
+          const mainCursor = document.querySelector('.typewriter-cursor');
+          if (mainCursor) {
+            mainCursor.style.display = 'none';
+          }
+          
           setTimeout(() => {
             typewriterSubContainer.style.opacity = '1';
             typewriterSubCursor.style.opacity = '1';
