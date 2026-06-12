@@ -52,21 +52,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 5. Typewriter Effect
   const typewriterText = document.getElementById('typewriter-text');
-  const typewriterSub = document.getElementById('typewriter-sub');
-  if (typewriterText && typewriterSub) {
+  const typewriterSubContainer = document.getElementById('typewriter-sub-container');
+  const typewriterSubText = document.getElementById('typewriter-sub-text');
+  const typewriterSubCursor = document.getElementById('typewriter-sub-cursor');
+  
+  if (typewriterText && typewriterSubContainer && typewriterSubText && typewriterSubCursor) {
     const sequence = [
       { text: 'not motivation.', color: '#ff4444' },
       { text: 'a structure.', color: '#44ff44' },
       { text: 'discipline.', color: '#44ff44' },
       { text: 'follow-through.', color: '#44ff44' }
     ];
+    const subTextStr = "We tackle every issue or roadblock you may face during this change and provide instant solutions.";
+    
     let seqIdx = 0;
     let charIdx = 0;
     let isDeleting = false;
-    let isFinished = false;
+    let isFinishedMain = false;
+    let subCharIdx = 0;
+
+    function typeSub() {
+      if (subCharIdx < subTextStr.length) {
+        typewriterSubText.textContent += subTextStr.charAt(subCharIdx);
+        subCharIdx++;
+        setTimeout(typeSub, 30);
+      }
+    }
 
     function type() {
-      if (isFinished) return;
+      if (isFinishedMain) return;
       const currentObj = sequence[seqIdx];
       const currentWord = currentObj.text;
       
@@ -84,9 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (!isDeleting && charIdx === currentWord.length) {
         if (seqIdx === sequence.length - 1) {
-          isFinished = true;
+          isFinishedMain = true;
           setTimeout(() => {
-            typewriterSub.style.opacity = '1';
+            typewriterSubContainer.style.opacity = '1';
+            typewriterSubCursor.style.opacity = '1';
+            setTimeout(typeSub, 300);
           }, 500);
           return;
         }
