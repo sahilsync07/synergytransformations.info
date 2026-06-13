@@ -32,7 +32,7 @@
 
   /* Container */
   --container-width: 1200px;
-  --container-vsl-width: 960px;
+  --container-vsl-width: 1140px;
   --container-narrow-width: 720px;
   
   /* Transitions */
@@ -408,12 +408,19 @@ h1, h2, h3, h4 {
   margin-top: var(--sp-12);
 }
 .advantage-item {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--sp-6);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  padding: var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;
   transition: var(--transition-smooth);
+  will-change: transform, opacity;
 }
 .advantage-item:hover {
-  border-top-color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.03), 0 0 25px rgba(255, 255, 255, 0.015);
 }
 .advantage-item__index {
   font-size: 13px;
@@ -453,11 +460,12 @@ h1, h2, h3, h4 {
   justify-content: space-between;
   min-height: 220px;
   transition: var(--transition-smooth);
+  will-change: transform, opacity;
 }
 .testimonial-card:hover {
-  border-color: var(--color-white);
-  transform: translateY(-4px);
-  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.015);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.03), 0 0 25px rgba(255, 255, 255, 0.015);
 }
 .testimonial-card__quote {
   font-family: var(--font-serif);
@@ -748,6 +756,7 @@ h1, h2, h3, h4 {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: opacity, transform;
 }
 [data-reveal].active {
   opacity: 1;
