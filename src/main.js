@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { text: 'Discipline.', color: '#44ff44' },
       { text: 'a follow through.', color: '#44ff44' }
     ];
-    const subTextStr = "We tackle every issue or roadblock you may face during this change and provide instant solutions.";
+    const subTextStr = "Synergy is not a program you finish; it is the framework for your lifelong evolution. Every pillar of your life body, mind, energy, and purpose becomes our shared mission.";
     
     let seqIdx = 0;
     let charIdx = 0;
