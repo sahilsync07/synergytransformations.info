@@ -12,6 +12,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         alpha: resolve(__dirname, 'alpha/index.html'),
         beta: resolve(__dirname, 'beta/index.html'),
+        charlie: resolve(__dirname, 'charlie/index.html'),
       },
     },
   },
