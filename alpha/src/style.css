@@ -852,4 +852,20 @@ h1, h2, h3, h4 {
     width: 100%;
     gap: 12px;
   }
+  .hero__body-text {
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+  .cta__text {
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+  .cta__subtext {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .section__description {
+    font-size: 1.0rem;
+    line-height: 1.65;
+  }
 }
