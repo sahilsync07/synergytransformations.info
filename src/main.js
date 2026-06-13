@@ -186,10 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
           btnBegin.style.pointerEvents = 'auto';
           btnBegin.style.opacity = '1';
         }
-        const scrollIndicator = document.getElementById('hero-scroll-indicator');
-        if (scrollIndicator) {
-          scrollIndicator.style.opacity = '1';
-        }
+
       }
     }
 
