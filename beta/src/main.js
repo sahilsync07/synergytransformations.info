@@ -154,4 +154,76 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // 6. Instagram DM — Copy "TRANSFORM" to clipboard on click + toast
+  // Inject toast styles
+  const toastStyle = document.createElement('style');
+  toastStyle.textContent = `
+    .dm-toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #fff;
+      color: #000;
+      padding: 1rem 1.75rem;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 10000;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+    .dm-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dm-toast__check {
+      color: #22c55e;
+      font-size: 18px;
+    }
+  `;
+  document.head.appendChild(toastStyle);
+
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = 'dm-toast';
+  toast.innerHTML = '<span class="dm-toast__check">✓</span> "TRANSFORM" copied — paste it in the DM!';
+  document.body.appendChild(toast);
+
+  let toastTimeout;
+  function showToast() {
+    clearTimeout(toastTimeout);
+    toast.classList.add('show');
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 4000);
+  }
+
+  // Attach to all Instagram DM links
+  document.querySelectorAll('a[href*="ig.me/m/"]').forEach(link => {
+    link.addEventListener('click', () => {
+      navigator.clipboard.writeText('TRANSFORM').then(() => {
+        showToast();
+      }).catch(() => {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = 'TRANSFORM';
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast();
+      });
+    });
+  });
+
 });
