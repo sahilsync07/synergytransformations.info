@@ -1,60 +1,157 @@
-import './beta-style.css'; // Import the new minimalist styles
+/* ════════════════════════════════════════════════════════════════════════════
+   THE SYNERGY PROGRAM — BETA INTERACTIVE ENGINE
+   Lenis smooth scroll · Typewriter system · Reveal observers · Nav scroll
+   ════════════════════════════════════════════════════════════════════════════ */
+
+import './beta-style.css';
+import Lenis from 'lenis';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Dynamic Typewriter Effect for the Hero
-  const typewriterText = document.getElementById('typewriter-text');
-  
-  if (typewriterText) {
-    // Kept it simple and elegant. Only a few high-impact words.
-    const sequence = [
-      'structure.',
-      'discipline.',
-      'execution.',
-      'permanent.'
-    ];
-    
-    let sequenceIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    
-    function type() {
-      const currentWord = sequence[sequenceIndex];
-      
-      if (isDeleting) {
-        charIndex--;
-      } else {
-        charIndex++;
-      }
-      
-      typewriterText.textContent = currentWord.substring(0, charIndex);
-      
-      // Speed adjustments for a premium feel
-      let typeSpeed = isDeleting ? 40 : 80;
-      
-      if (!isDeleting && charIndex === currentWord.length) {
-        typeSpeed = 2500; // Pause at the end of word
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        sequenceIndex = (sequenceIndex + 1) % sequence.length;
-        typeSpeed = 500; // Pause before typing next word
-      }
-      
-      setTimeout(type, typeSpeed);
-    }
-    
-    // Slight delay before typing starts to allow entrance animations to finish
-    setTimeout(type, 1200);
-  }
+  // 1. Initialize Lenis Smooth Scroll
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    smoothTouch: false,
+  });
 
-  // Subtle Mouse Parallax for ambient background
-  const ambient = document.querySelector('.beta-ambient');
-  if (ambient) {
-    document.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20; // max 10px move
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      ambient.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // 2. Scroll Progress Bar & Viewport Glow
+  const progressBar = document.getElementById('progress-bar');
+  const glowOverlay = document.getElementById('viewport-glow');
+  const nav = document.getElementById('nav');
+
+  if (progressBar || glowOverlay) {
+    let scrollTimeout;
+
+    lenis.on('scroll', () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.body.scrollHeight;
+      const scrollPercentage = scrollY / (documentHeight - windowHeight);
+
+      // Progress bar
+      if (progressBar) {
+        progressBar.style.width = `${scrollPercentage * 100}%`;
+      }
+
+      // Nav background on scroll
+      if (nav) {
+        if (scrollY > 50) {
+          nav.classList.add('nav--scrolled');
+        } else {
+          nav.classList.remove('nav--scrolled');
+        }
+      }
+
+      // Glow effect
+      if (glowOverlay) {
+        const velocity = Math.abs(lenis.velocity || 0);
+        const intensity = Math.min(0.1 + (velocity * 0.015), 0.35);
+        glowOverlay.style.opacity = intensity.toString();
+
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          glowOverlay.style.opacity = '0';
+        }, 800);
+      }
     });
   }
+
+  // 3. Scroll Reveal Animations (Intersection Observer)
+  const revealElements = document.querySelectorAll('[data-reveal]');
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  revealElements.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+    revealObserver.observe(el);
+  });
+
+  // 4. Typewriter Headline Loop
+  const typewriterText = document.getElementById('typewriter-text');
+  const heroSub = document.getElementById('hero-sub');
+
+  if (typewriterText) {
+    const sequence = [
+      { text: 'not Motivation.', color: '#ff4444' },
+      { text: 'a Structure.', color: '#44ff44' },
+      { text: 'Discipline.', color: '#44ff44' },
+      { text: 'a follow through.', color: '#44ff44' }
+    ];
+
+    let seqIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+
+    function type() {
+      const currentObj = sequence[seqIdx];
+      const currentWord = currentObj.text;
+
+      typewriterText.style.color = currentObj.color;
+
+      if (isDeleting) {
+        charIdx--;
+      } else {
+        charIdx++;
+      }
+
+      typewriterText.textContent = currentWord.substring(0, charIdx);
+
+      let typeSpeed = isDeleting ? 40 : 80;
+
+      if (!isDeleting && charIdx === currentWord.length) {
+        typeSpeed = 1500;
+        isDeleting = true;
+
+        // Reveal subtitle after first word finishes
+        if (seqIdx === 0 && heroSub && heroSub.style.opacity === '0') {
+          setTimeout(() => {
+            heroSub.style.opacity = '1';
+          }, 500);
+        }
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        seqIdx = (seqIdx + 1) % sequence.length;
+        typeSpeed = 400;
+      }
+
+      setTimeout(type, typeSpeed);
+    }
+
+    setTimeout(type, 1000);
+  }
+
+  // 5. Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      e.preventDefault();
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        lenis.scrollTo(targetElement, { offset: -80 });
+      }
+    });
+  });
+
 });
