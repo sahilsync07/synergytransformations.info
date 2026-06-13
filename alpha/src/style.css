@@ -286,16 +286,7 @@ h1, h2, h3, h4 {
   max-width: 850px;
   margin-bottom: var(--sp-8);
 }
-.hero__note {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.8;
-  color: var(--color-text-main);
-  max-width: 720px;
-  padding-left: 20px;
-  border-left: 1px solid var(--color-white);
-  margin-bottom: var(--sp-12);
-}
+
 .hero__scroll {
   position: absolute;
   bottom: var(--sp-8);
