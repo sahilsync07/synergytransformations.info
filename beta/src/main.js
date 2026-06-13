@@ -1,226 +1,160 @@
 /* ════════════════════════════════════════════════════════════════════════════
-   THE SYNERGY PROGRAM — BETA INTERACTIVE ENGINE
-   Lenis smooth scroll · Typewriter system · Reveal observers · Nav scroll
+   SYNERGY BETA — INTERACTIVE ENGINE
+   Scroll reveals · Morph text · Particle system · Stat counters · Clipboard
    ════════════════════════════════════════════════════════════════════════════ */
 
 import './beta-style.css';
-import Lenis from 'lenis';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. Initialize Lenis Smooth Scroll
-  const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    smoothTouch: false,
-  });
+  // ── 1. Scroll Reveal (Intersection Observer) ──────────────────────────
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  let revealDelay = 0;
 
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-
-  // 2. Scroll Progress Bar & Viewport Glow
-  const progressBar = document.getElementById('progress-bar');
-  const glowOverlay = document.getElementById('viewport-glow');
-  const nav = document.getElementById('nav');
-
-  if (progressBar || glowOverlay) {
-    let scrollTimeout;
-
-    lenis.on('scroll', () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.body.scrollHeight;
-      const scrollPercentage = scrollY / (documentHeight - windowHeight);
-
-      // Progress bar
-      if (progressBar) {
-        progressBar.style.width = `${scrollPercentage * 100}%`;
-      }
-
-      // Nav background on scroll
-      if (nav) {
-        if (scrollY > 50) {
-          nav.classList.add('nav--scrolled');
-        } else {
-          nav.classList.remove('nav--scrolled');
-        }
-      }
-
-      // Glow effect
-      if (glowOverlay) {
-        const velocity = Math.abs(lenis.velocity || 0);
-        const intensity = Math.min(0.1 + (velocity * 0.015), 0.35);
-        glowOverlay.style.opacity = intensity.toString();
-
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          glowOverlay.style.opacity = '0';
-        }, 800);
-      }
-    });
-  }
-
-  // 3. Scroll Reveal Animations (Intersection Observer)
-  const revealElements = document.querySelectorAll('[data-reveal]');
-
-  const revealObserver = new IntersectionObserver((entries, observer) => {
+  const revealObserver = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
+        // Stagger items that enter at the same time
+        const el = entry.target;
+        const delay = el.dataset.revealDelay || 0;
+        setTimeout(() => el.classList.add('revealed'), delay);
+        obs.unobserve(el);
       }
     });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-  revealElements.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+  revealEls.forEach((el, i) => {
+    // Auto-stagger siblings in the same parent grid
+    const parent = el.parentElement;
+    const siblings = parent ? parent.querySelectorAll('[data-reveal]') : [];
+    if (siblings.length > 1) {
+      const idx = Array.from(siblings).indexOf(el);
+      el.dataset.revealDelay = idx * 100;
+    }
     revealObserver.observe(el);
   });
 
-  // 4. Typewriter Headline Loop
-  const typewriterText = document.getElementById('typewriter-text');
-  const heroSub = document.getElementById('hero-sub');
+  // ── 2. Morph Text — Hero Accent Word Cycle ────────────────────────────
+  const morphText = document.getElementById('morph-text');
+  if (morphText) {
+    const words = ['Transformed.', 'Disciplined.', 'Unstoppable.', 'Permanent.'];
+    let wordIdx = 0;
 
-  if (typewriterText) {
-    const sequence = [
-      { text: 'not Motivation.', color: '#ff4444' },
-      { text: 'a Structure.', color: '#44ff44' },
-      { text: 'Discipline.', color: '#44ff44' },
-      { text: 'a follow through.', color: '#44ff44' }
-    ];
+    setInterval(() => {
+      morphText.style.opacity = '0';
+      morphText.style.transform = 'translateY(12px)';
+      morphText.style.transition = 'all 0.4s ease';
 
-    let seqIdx = 0;
-    let charIdx = 0;
-    let isDeleting = false;
-
-    function type() {
-      const currentObj = sequence[seqIdx];
-      const currentWord = currentObj.text;
-
-      typewriterText.style.color = currentObj.color;
-
-      if (isDeleting) {
-        charIdx--;
-      } else {
-        charIdx++;
-      }
-
-      typewriterText.textContent = currentWord.substring(0, charIdx);
-
-      let typeSpeed = isDeleting ? 40 : 80;
-
-      if (!isDeleting && charIdx === currentWord.length) {
-        typeSpeed = 1500;
-        isDeleting = true;
-
-        // Reveal subtitle after first word finishes
-        if (seqIdx === 0 && heroSub && heroSub.style.opacity === '0') {
-          setTimeout(() => {
-            heroSub.style.opacity = '1';
-          }, 500);
-        }
-      } else if (isDeleting && charIdx === 0) {
-        isDeleting = false;
-        seqIdx = (seqIdx + 1) % sequence.length;
-        typeSpeed = 400;
-      }
-
-      setTimeout(type, typeSpeed);
-    }
-
-    setTimeout(type, 1000);
+      setTimeout(() => {
+        wordIdx = (wordIdx + 1) % words.length;
+        morphText.textContent = words[wordIdx];
+        morphText.style.opacity = '1';
+        morphText.style.transform = 'translateY(0)';
+      }, 400);
+    }, 3000);
   }
 
-  // 5. Smooth scroll for anchor links
+  // ── 3. Particle System around Morph Visual ────────────────────────────
+  const particleContainer = document.getElementById('morph-particles');
+  if (particleContainer) {
+    const PARTICLE_COUNT = 18;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const p = document.createElement('div');
+      p.className = 'morph-particle';
+
+      // Random position around the circle
+      const angle = (Math.random() * 360) * (Math.PI / 180);
+      const radius = 100 + Math.random() * 60;
+      const x = 170 + Math.cos(angle) * radius;
+      const y = 170 + Math.sin(angle) * radius;
+
+      p.style.left = `${x}px`;
+      p.style.top = `${y}px`;
+      p.style.animationDelay = `${Math.random() * 3}s`;
+      p.style.animationDuration = `${2 + Math.random() * 2}s`;
+      p.style.width = `${3 + Math.random() * 4}px`;
+      p.style.height = p.style.width;
+
+      particleContainer.appendChild(p);
+    }
+  }
+
+  // ── 4. Animated Stat Counters ─────────────────────────────────────────
+  const statNums = document.querySelectorAll('.stat-item__num[data-count]');
+
+  const countObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const duration = 2000;
+        const start = performance.now();
+
+        function tick(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out cubic
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(target * eased);
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNums.forEach(el => countObserver.observe(el));
+
+  // ── 5. Smooth Scroll for Anchor Links ─────────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
+    anchor.addEventListener('click', function (e) {
+      const id = this.getAttribute('href');
+      if (id === '#') return;
       e.preventDefault();
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        lenis.scrollTo(targetElement, { offset: -80 });
+      const target = document.querySelector(id);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
 
-  // 6. Instagram DM — Copy "TRANSFORM" to clipboard on click + toast
-  // Inject toast styles
-  const toastStyle = document.createElement('style');
-  toastStyle.textContent = `
-    .dm-toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: #fff;
-      color: #000;
-      padding: 1rem 1.75rem;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      z-index: 10000;
-      opacity: 0;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      pointer-events: none;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      white-space: nowrap;
-    }
-    .dm-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-    .dm-toast__check {
-      color: #22c55e;
-      font-size: 18px;
-    }
-  `;
-  document.head.appendChild(toastStyle);
+  // ── 6. Nav Background on Scroll ───────────────────────────────────────
+  const nav = document.getElementById('nav');
+  if (nav) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(12, 14, 26, 0.85)';
+      } else {
+        nav.style.background = 'rgba(12, 14, 26, 0.5)';
+      }
+    }, { passive: true });
+  }
 
-  // Create toast element
+  // ── 7. Instagram DM — Clipboard Copy + Toast ──────────────────────────
   const toast = document.createElement('div');
   toast.className = 'dm-toast';
-  toast.innerHTML = '<span class="dm-toast__check">✓</span> "TRANSFORM" copied — paste it in the DM!';
+  toast.innerHTML = '✓ &nbsp;"TRANSFORM" copied — paste it in the DM!';
   document.body.appendChild(toast);
 
   let toastTimeout;
   function showToast() {
     clearTimeout(toastTimeout);
     toast.classList.add('show');
-    toastTimeout = setTimeout(() => {
-      toast.classList.remove('show');
-    }, 4000);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
   }
 
-  // Attach to all Instagram DM links
-  document.querySelectorAll('a[href*="ig.me/m/"]').forEach(link => {
+  document.querySelectorAll('.ig-dm-link').forEach(link => {
     link.addEventListener('click', () => {
-      navigator.clipboard.writeText('TRANSFORM').then(() => {
-        showToast();
-      }).catch(() => {
-        // Fallback for older browsers
-        const textarea = document.createElement('textarea');
-        textarea.value = 'TRANSFORM';
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
+      navigator.clipboard.writeText('TRANSFORM').then(showToast).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = 'TRANSFORM';
+        ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
         document.execCommand('copy');
-        document.body.removeChild(textarea);
+        document.body.removeChild(ta);
         showToast();
       });
     });
