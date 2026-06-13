@@ -11,6 +11,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         alpha: resolve(__dirname, 'alpha/index.html'),
+        beta: resolve(__dirname, 'beta/index.html'),
       },
     },
   },
