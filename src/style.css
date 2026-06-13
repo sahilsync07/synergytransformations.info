@@ -971,6 +971,8 @@ img, svg, iframe { display: block; max-width: 100%; }
 
   .body-text {
     max-width: 100%;
+    font-size: 12px;
+    line-height: 1.7;
   }
 
   /* Process */
@@ -1144,7 +1146,8 @@ img, svg, iframe { display: block; max-width: 100%; }
   }
 
   .cta__sub {
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.7;
   }
 
   /* Footer */
