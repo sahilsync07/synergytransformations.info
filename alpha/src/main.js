@@ -77,10 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (typewriterText) {
     const sequence = [
-      { text: 'not motivation.', color: '#d93838' },
-      { text: 'structure.', color: '#0066cc' },
-      { text: 'discipline.', color: '#0066cc' },
-      { text: 'follow through.', color: '#0066cc' }
+      { text: 'not motivation.', color: '#ff4d4d' },
+      { text: 'structure.', color: '#ffffff' },
+      { text: 'discipline.', color: '#ffffff' },
+      { text: 'follow through.', color: '#ffffff' }
     ];
     
     let sequenceIndex = 0;
